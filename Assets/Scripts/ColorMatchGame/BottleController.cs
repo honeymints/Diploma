@@ -24,9 +24,14 @@ public class BottleController : MonoBehaviour
     private int numberOfTopColorLayers=1;
     
     private int numberOfColorsToAdd;
+    
     [SerializeField] private BottleController bottleContrRef;
     [SerializeField] private bool thisBottle=false;
+    [SerializeField] private Transform leftRotation;
+    [SerializeField] private Transform rightRotation;
     
+    private Transform chosenRotation;
+    private float directionMultiplier=1.0f;
     void Start()
     {
         bottleMask.material.SetFloat("_FillAmount", fillAmounts[numberOfColors]);
@@ -42,6 +47,7 @@ public class BottleController : MonoBehaviour
             
             if (bottleContrRef.CheckBottleFilled(TopColor))
             {
+                ChoseRotationAndDirection();
                 numberOfColorsToAdd = Mathf.Min(numberOfTopColorLayers, 4-bottleContrRef.numberOfColors);
                 for (int i=0;i<numberOfColorsToAdd;i++)
                 {
@@ -73,10 +79,12 @@ public class BottleController : MonoBehaviour
         while (t<rotationTime)
         {
             lerp = t / rotationTime;
-            eulerAngle = Mathf.Lerp(0f, rotationAngles[rotationIndex], lerp);
+            eulerAngle = Mathf.Lerp(0f, directionMultiplier*rotationAngles[rotationIndex], lerp);
             t += Time.deltaTime*rotationSpeedCurve.Evaluate(eulerAngle);
 
-            transform.eulerAngles = new Vector3(0, 0, eulerAngle);
+            //transform.eulerAngles = new Vector3(0, 0, eulerAngle);
+
+            transform.RotateAround(chosenRotation.position, Vector3.forward, lastEulerAngle-eulerAngle);
             bottleMask.material.SetFloat("_ScaleAndRotation", ScaleAndRotationCurve.Evaluate(eulerAngle));
 
             if (fillAmounts[numberOfColors] > fillAmountCurve.Evaluate(eulerAngle))
@@ -92,8 +100,8 @@ public class BottleController : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        eulerAngle = rotationAngles[rotationIndex];
-        transform.eulerAngles = new Vector3(0, 0, eulerAngle);
+        eulerAngle = directionMultiplier*rotationAngles[rotationIndex];
+        //transform.eulerAngles = new Vector3(0, 0, eulerAngle);
         bottleMask.material.SetFloat("_ScaleAndRotation", ScaleAndRotationCurve.Evaluate(eulerAngle));
         bottleMask.material.SetFloat("_FillAmount",fillAmountCurve.Evaluate(eulerAngle));
 
@@ -108,15 +116,21 @@ public class BottleController : MonoBehaviour
         float t = 0;
         float lerp;
         float eulerAngle;
+
+        float lastEulerAngle = directionMultiplier * rotationAngles[rotationIndex];
         while (t<rotationTime)
         {
             lerp = t / rotationTime;
-            eulerAngle = Mathf.Lerp(rotationAngles[rotationIndex], 0f, lerp);
+            eulerAngle = Mathf.Lerp(directionMultiplier * rotationAngles[rotationIndex], 0f, lerp);
             t += Time.deltaTime;
 
-            transform.eulerAngles = new Vector3(0, 0, eulerAngle);
+            //transform.eulerAngles = new Vector3(0, 0, eulerAngle);
+            transform.RotateAround(chosenRotation.position, Vector3.forward, lastEulerAngle-eulerAngle);
+            
             bottleMask.material.SetFloat("_ScaleAndRotation", ScaleAndRotationCurve.Evaluate(eulerAngle));
 
+            lastEulerAngle = eulerAngle;
+            
             yield return new WaitForEndOfFrame();
         }
         UpdateTopColors();
@@ -206,5 +220,19 @@ public class BottleController : MonoBehaviour
     private void FillUpTheBottle(float fillAmountToAdd)
     {
         bottleMask.material.SetFloat("_FillAmount",bottleMask.material.GetFloat("_FillAmount")+fillAmountToAdd);
+    }
+
+    private void ChoseRotationAndDirection()
+    {
+        if (transform.position.x>bottleContrRef.transform.position.x)
+        {
+            chosenRotation = leftRotation;
+            directionMultiplier = -1.0f;
+        }
+        else
+        {
+            chosenRotation = rightRotation;
+            directionMultiplier = 1.0f;
+        }
     }
 }
