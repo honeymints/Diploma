@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +7,13 @@ public class GameController : MonoBehaviour
 {
     [SerializeField] private BottleController FirstBottle;
     [SerializeField] private BottleController SecondBottle;
-    
-    
+    [SerializeField] private List<BottleController> Bottles;
+
+    void Start()
+    {
+        Bottles.AddRange(FindObjectsOfType<BottleController>());
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -17,7 +23,6 @@ public class GameController : MonoBehaviour
             Vector2 mousePosition2D = new Vector2(mousePosition.x, mousePosition.y);
 
             RaycastHit2D hit = Physics2D.Raycast(mousePosition2D, Vector2.zero);
-            Debug.Log(hit);
 
             if (hit.collider != null)
             {
@@ -40,12 +45,12 @@ public class GameController : MonoBehaviour
                             
                             FirstBottle.UpdateTopColors();
                             SecondBottle.UpdateTopColors();
-
-                            if (SecondBottle.CheckBottleFilled(FirstBottle.TopColor))
-                            {
-                               FirstBottle.StartColorTransferring();
-                            }
                             
+                               FirstBottle.StartColorTransferring();
+                               
+                               SecondBottle.CheckIndexesAndMatch();
+                               FirstBottle.CheckIndexesAndMatch();
+                               
                             FirstBottle = null;
                             SecondBottle = null;
                             
