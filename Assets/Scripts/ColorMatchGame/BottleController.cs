@@ -87,16 +87,9 @@ public class BottleController : MonoBehaviour
         }
     }
 
-    public void CheckIfInitialMatchedWithExpectedBottle()
+    public bool CheckIfInitialMatchedWithExpectedBottle()
     {
-        if (matchedCount==expectedBottleColor.Count)
-        {
-            isMatched = true;
-        }
-        else
-        {
-            isMatched = false;
-        }
+        return matchedCount == expectedBottleColor.Count;
     }
     
     public void UpdateColors()
@@ -182,14 +175,7 @@ public class BottleController : MonoBehaviour
     {
         startPosition = transform.position;
 
-        if (chosenRotation == leftRotation)
-        {
-            endPosition = bottleContrRef.rightRotation.position;
-        }
-        else
-        {
-            endPosition = bottleContrRef.leftRotation.position;
-        }
+        endPosition = chosenRotation == leftRotation ? bottleContrRef.rightRotation.position : bottleContrRef.leftRotation.position;
 
         float t = 0;
         
@@ -199,6 +185,7 @@ public class BottleController : MonoBehaviour
             t += Time.deltaTime*2;
             yield return new WaitForEndOfFrame();
         }
+        
         transform.position = endPosition;
         
         StartCoroutine(RotateBottle());
@@ -235,8 +222,7 @@ public class BottleController : MonoBehaviour
             lerp = t / rotationTime;
             eulerAngle = Mathf.Lerp(directionMultiplier * rotationAngles[rotationIndex], 0f, lerp);
             t += Time.deltaTime;
-
-            //transform.eulerAngles = new Vector3(0, 0, eulerAngle);
+            
             transform.RotateAround(chosenRotation.position, Vector3.forward, lastEulerAngle-eulerAngle);
             
             bottleMask.material.SetFloat("_ScaleAndRotation", ScaleAndRotationCurve.Evaluate(eulerAngle));
@@ -245,6 +231,7 @@ public class BottleController : MonoBehaviour
             
             yield return new WaitForEndOfFrame();
         }
+        
         UpdateTopColors();
         
         eulerAngle = 0;

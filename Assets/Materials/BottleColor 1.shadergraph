@@ -998,7 +998,7 @@
     "m_ShaderOutputName": "B",
     "m_StageCapability": 3,
     "m_Value": {
-        "e00": -0.28999999165534975,
+        "e00": -0.14499999582767487,
         "e01": 2.0,
         "e02": 2.0,
         "e03": 2.0,
@@ -1625,7 +1625,7 @@
     "m_ShaderOutputName": "B",
     "m_StageCapability": 3,
     "m_Value": {
-        "e00": 0.12999999523162843,
+        "e00": 0.06499999761581421,
         "e01": 2.0,
         "e02": 2.0,
         "e03": 2.0,
@@ -3215,7 +3215,7 @@
         "x"
     ],
     "m_Precision": 0,
-    "m_PreviewExpanded": false,
+    "m_PreviewExpanded": true,
     "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
@@ -3631,9 +3631,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1190.4000244140625,
-            "y": 828.7999877929688,
-            "width": 152.7999267578125,
+            "x": -1191.199951171875,
+            "y": 712.7999877929688,
+            "width": 152.800048828125,
             "height": 172.79998779296876
         }
     },
@@ -3829,8 +3829,8 @@
     "m_Value": 0.0,
     "m_FloatType": 1,
     "m_RangeValues": {
-        "x": -0.20000000298023225,
-        "y": 0.3400000035762787
+        "x": -0.25,
+        "y": 0.17000000178813935
     }
 }
 
@@ -3900,7 +3900,7 @@
         "take away"
     ],
     "m_Precision": 0,
-    "m_PreviewExpanded": true,
+    "m_PreviewExpanded": false,
     "m_DismissedVersion": 0,
     "m_PreviewMode": 0,
     "m_CustomColors": {
@@ -4033,7 +4033,7 @@
     "m_ShaderOutputName": "B",
     "m_StageCapability": 3,
     "m_Value": {
-        "e00": -0.07999999821186066,
+        "e00": -0.03999999910593033,
         "e01": 2.0,
         "e02": 2.0,
         "e03": 2.0,

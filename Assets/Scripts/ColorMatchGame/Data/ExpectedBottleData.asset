@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3b0ba3e78d4cc04db001c815abaf239, type: 3}
+  m_Name: ExpectedBottleData
+  m_EditorClassIdentifier: 
+  ExpectedBottles:
+  - ExpectedBottleColors:
+    - {r: 0.16470589, g: 1, b: 0, a: 0}
+  - ExpectedBottleColors:
+    - {r: 1, g: 0, b: 0.9882353, a: 0}
+    - {r: 0, g: 1, b: 0.87058824, a: 0}
+  - ExpectedBottleColors:
+    - {r: 1, g: 0, b: 0.83137256, a: 0}
+    - {r: 1, g: 0.91764706, b: 0, a: 0}
