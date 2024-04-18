@@ -38,11 +38,9 @@ public class ExpectedBottlesView : MonoBehaviour
 
     public void InitializeBotlle()
     {
-        
         for (int i = 0; i < transform.childCount; i++)
         {
             bottleMasks.Add(transform.GetChild(i).GetChild(0).GetComponentInChildren<SpriteRenderer>());
-            
         }
     }
 

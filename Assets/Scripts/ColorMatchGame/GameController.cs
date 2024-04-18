@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private BottleController FirstBottle;
     [SerializeField] private BottleController SecondBottle;
     [SerializeField] private List<BottleController> Bottles;
+    [SerializeField] private PanelView _panelView;
     private bool isAllFull=false;
 
     void Start()
@@ -73,7 +74,8 @@ public class GameController : MonoBehaviour
 
     private void Win()
     {
-        Debug.Log("Win");
+        _panelView.ShowPanel();
+        GetComponent<GameController>().enabled = false;
     }
 
     private IEnumerator CheckIfAllBottlesAreMatched(float timeLeft)
@@ -86,6 +88,5 @@ public class GameController : MonoBehaviour
             
             Win();
         }
-        
     }
 }
