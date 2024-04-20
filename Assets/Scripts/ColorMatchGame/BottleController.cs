@@ -44,7 +44,6 @@ public class BottleController : MonoBehaviour
     public List<Color> addedColorsToBottle;
     
     public int matchedCount;
-    public bool isMatched=false;
 
     void Start()
     {
@@ -287,30 +286,6 @@ public class BottleController : MonoBehaviour
             rotationIndex = 3 - (numberOfColors - numberOfTopColorLayers);
         }
     }
-
-    /*public bool CheckBottleFilled(Color color)
-    {
-        if (numberOfColors != 0)
-        {
-            if (numberOfColors == 4)
-            {
-                return false;
-            }
-            else{
-                if(TopColor.Equals(color))
-                {
-                    return true;
-                }
-                else{
-                    return false;
-                }
-            }
-        }
-        else
-        {
-            return true;
-        }
-    }*/
 
     private void CalculateRotationIndex(int numberOfEmptySpacesInSecondBottle)
     {
