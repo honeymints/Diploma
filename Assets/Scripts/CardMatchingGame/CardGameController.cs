@@ -5,14 +5,14 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-public class CardController : MonoBehaviour
+using Random = UnityEngine.Random;
+
+public class CardGameController : MonoBehaviour
 {
+    [SerializeField] private CardGameData _cardGameData;
     [SerializeField] private GameObject _cardPrefab;
     [SerializeField] private GameObject _panel;
-    [SerializeField] private AnimationCurve _curve;
     
-    [SerializeField] private int sizeOfColumns;
-    [SerializeField] private int sizeOfRows;
     [SerializeField] private int rotationSpeed;
     [SerializeField] private Sprite initialSprite;
 
@@ -20,8 +20,11 @@ public class CardController : MonoBehaviour
     public List<Sprite> usedCards = new List<Sprite>();
     public List<Button> cardPrefabs = new List<Button>();
 
-    private bool firstCardClick, secondCardClick;
-    private int firstIndex, secondIndex;
+    private bool _firstCardClick, _secondCardClick;
+    private int _firstIndex, _secondIndex;
+    private int _correctGuesses, _totalGuesses;
+    
+    [SerializeField] private PanelView _panelView;
     
     void Awake()
     {
@@ -33,12 +36,13 @@ public class CardController : MonoBehaviour
         CreateCards();
         AddListener();
         AddSprites();
+        Randomize(usedCards);
         initialSprite = cardPrefabs[0].image.sprite;
     }
     
     private void CreateCards()
     {
-        for (int i = 0; i < sizeOfColumns * sizeOfRows; i++)
+        for (int i = 0; i < _cardGameData.sizeOfColumns * _cardGameData.sizeOfRows; i++)
         {
             var card = Instantiate(_cardPrefab, _cardPrefab.transform.position, Quaternion.identity);
             card.transform.SetParent(_panel.transform);
@@ -48,7 +52,7 @@ public class CardController : MonoBehaviour
             cardPrefabs.Add(card.GetComponent<Button>());
         }
 
-        _panel.GetComponent<GridLayoutGroup>().constraintCount = sizeOfColumns;
+        _panel.GetComponent<GridLayoutGroup>().constraintCount = _cardGameData.sizeOfColumns;
     }
 
     public void AddSprites()
@@ -64,6 +68,7 @@ public class CardController : MonoBehaviour
             index++;
         }
     }
+    
     public void AddListener()
     {
         for (int i=0;i< cardPrefabs.Count;i++)
@@ -75,44 +80,49 @@ public class CardController : MonoBehaviour
     public void Click()
     {
         Button card;
-        if (!firstCardClick)
+        if (!_firstCardClick)
         {
-            firstCardClick = true;
+            _firstCardClick = true;
             card=EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
-            firstIndex = cardPrefabs.FindIndex(x => x == card);
-            
-            StartCoroutine(TurnCardAround(cardPrefabs[firstIndex], firstIndex));
+            _firstIndex = cardPrefabs.FindIndex(x => x == card);
+            StartCoroutine(TurnCardAround(cardPrefabs[_firstIndex], _firstIndex));
         }
-        else if (!secondCardClick)
+        else if (!_secondCardClick)
         {
-            secondCardClick = true;
+            _secondCardClick = true;
             card=EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
-            secondIndex = cardPrefabs.FindIndex(x => x == card);
-
-            StartCoroutine(TurnCardAround(cardPrefabs[secondIndex], secondIndex));
-            
+            _secondIndex = cardPrefabs.FindIndex(x => x == card);
+            StartCoroutine(TurnCardAround(cardPrefabs[_secondIndex], _secondIndex));
         }
 
-        CheckIfMatched();
+        StartCoroutine(CheckIfMatched());
     }
 
-    public void CheckIfMatched()
+    public IEnumerator CheckIfMatched()
     {
-        if (firstCardClick && secondCardClick)
+        yield return new WaitForSeconds(0.5f);
+        
+        if (_firstCardClick && _secondCardClick)
         {
-            if (cardPrefabs[firstIndex].image.sprite == cardPrefabs[secondIndex].image.sprite && firstIndex!=secondIndex)
+            if (usedCards[_firstIndex]== usedCards[_secondIndex] && _firstIndex!=_secondIndex)
             {
-                Debug.Log("matched!");
+                yield return new WaitForSeconds(0.5f);
+                cardPrefabs[_firstIndex].interactable = false;
+                cardPrefabs[_secondIndex].interactable = false;
+                _correctGuesses++;
             }
             else
             {
-                Debug.Log("first and second card didn't match and turn around");
-                StartCoroutine(TurnCardAroundBack(cardPrefabs[firstIndex]));
-                StartCoroutine(TurnCardAroundBack(cardPrefabs[secondIndex]));
-                secondCardClick = false;
-                secondCardClick = false;
+                yield return new WaitForSeconds(0.5f);
+                StartCoroutine(TurnCardAroundBack(cardPrefabs[_firstIndex]));
+                StartCoroutine(TurnCardAroundBack(cardPrefabs[_secondIndex]));
             }
+
+            _totalGuesses++;
+            _secondCardClick = _firstCardClick = false;
         }
+        
+        CountGuesses();
     }
 
     private IEnumerator TurnCardAround(Button card, int index)
@@ -127,7 +137,9 @@ public class CardController : MonoBehaviour
                 card.transform.eulerAngles = eulerAngles;
                 yield return null;
         }
-        card.image.sprite = cardSprites[index];
+        
+        card.image.sprite =  usedCards[index];
+        Debug.Log($"here is index of current card {index} and sprite itself {usedCards[index].name}");
         
         while (Math.Abs(angleY - 180f) >0)
         {
@@ -138,15 +150,16 @@ public class CardController : MonoBehaviour
             card.transform.eulerAngles = eulerAngles;
             yield return null;
         }
+        
     }
 
     private IEnumerator TurnCardAroundBack(Button card1)
     {
-        float angleY = 0f;
-        while (Math.Abs(angleY - 90f) >0)
+        float angleY = 180f;
+        while (Math.Abs(angleY - 270f) >0)
         {
             var eulerAngles = card1.transform.eulerAngles;
-            angleY = Mathf.MoveTowards(eulerAngles.y, 90f, rotationSpeed*Time.deltaTime);
+            angleY = Mathf.MoveTowards(eulerAngles.y, 270f, rotationSpeed*Time.deltaTime);
                 
             eulerAngles = new Vector3(eulerAngles.x, angleY, eulerAngles.z);
             card1.transform.eulerAngles = eulerAngles;
@@ -155,14 +168,41 @@ public class CardController : MonoBehaviour
         
         card1.image.sprite = initialSprite;
         
-        while (Math.Abs(angleY - 180f) >0)
+        while (Math.Abs(angleY - 360f) >0)
         {
             var eulerAngles = card1.transform.eulerAngles;
-            angleY = Mathf.MoveTowards(eulerAngles.y, 180f, rotationSpeed*Time.deltaTime);
+            angleY = Mathf.MoveTowards(eulerAngles.y, 360f, rotationSpeed*Time.deltaTime);
                 
             eulerAngles = new Vector3(eulerAngles.x, angleY, eulerAngles.z);
             card1.transform.eulerAngles = eulerAngles;
             yield return null;
         }
+    }
+
+    private void Randomize(List<Sprite> list)
+    {
+        for (int i = 0; i < list.Count; i++)
+        {
+            Sprite temp = list[i];
+            int randomIndex = Random.Range(0, list.Count);
+            list[i] = list[randomIndex];
+            list[randomIndex] = temp;
+        }
+    }
+
+    public void CountGuesses()
+    {
+        if (_correctGuesses == cardPrefabs.Count/2)
+        {
+            Win();
+        }
+    }
+
+    private void Win()
+    {
+        Debug.Log($"Total guesses {_totalGuesses}");
+        Debug.Log($"Correct guesses {_correctGuesses}");
+        _panelView.ShowPanel();
+        GetComponent<CardGameController>().enabled = false;
     }
 }
