@@ -33,6 +33,7 @@ public class CardGameController : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1f;
         CreateCards();
         AddListener();
         AddSprites();
@@ -200,9 +201,7 @@ public class CardGameController : MonoBehaviour
 
     private void Win()
     {
-        Debug.Log($"Total guesses {_totalGuesses}");
-        Debug.Log($"Correct guesses {_correctGuesses}");
-        _panelView.ShowPanel();
+        _panelView.ShowPanel($"Total guesses {_totalGuesses}");
         GetComponent<CardGameController>().enabled = false;
     }
 }

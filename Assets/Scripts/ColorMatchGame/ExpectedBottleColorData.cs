@@ -7,6 +7,7 @@ public class ExpectedBottleData : ScriptableObject
 {
     public List<ExpectedBottle> ExpectedBottles;
 }
+
 [Serializable]
 public class ExpectedBottle
 {

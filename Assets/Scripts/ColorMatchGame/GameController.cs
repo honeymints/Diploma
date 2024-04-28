@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1f;
         Bottles.AddRange(FindObjectsOfType<BottleController>());
     }
 
@@ -74,7 +75,7 @@ public class GameController : MonoBehaviour
 
     private void Win()
     {
-        _panelView.ShowPanel();
+        _panelView.ShowPanel("Nice job!");
         GetComponent<GameController>().enabled = false;
     }
 

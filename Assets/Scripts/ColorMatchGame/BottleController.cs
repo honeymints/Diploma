@@ -6,13 +6,6 @@ using UnityEngine;
 
 public class BottleController : MonoBehaviour
 {
-    [SerializeField] private List<Color> bottleColors;
-    [SerializeField] private SpriteRenderer bottleMask;
-
-    [SerializeField] private AnimationCurve ScaleAndRotationCurve;
-    [SerializeField] private AnimationCurve fillAmountCurve;
-    [SerializeField] private AnimationCurve rotationSpeedCurve;
-
     [SerializeField] private float rotationTime=1f;
 
     [SerializeField] private float[] fillAmounts;
@@ -32,21 +25,26 @@ public class BottleController : MonoBehaviour
     [SerializeField] private Transform rightRotation;
     
     private Transform chosenRotation;
+
+    public List<Color> addedColorsToBottle;
+    
     private float directionMultiplier=1.0f;
-    
     public LineRenderer lineRenderer;
-    
     public Vector3 originalPosition;
     public Vector3 startPosition;
     public Vector3 endPosition;
-
+    [SerializeField] private AnimationCurve ScaleAndRotationCurve;
+    [SerializeField] private AnimationCurve fillAmountCurve;
+    [SerializeField] private AnimationCurve rotationSpeedCurve;
+    [SerializeField] private List<Color> bottleColors;
+    [SerializeField] private SpriteRenderer bottleMask;
     public List<Color> expectedBottleColor;
-    public List<Color> addedColorsToBottle;
-    
+
     public int matchedCount;
 
     void Start()
     {
+        Debug.Log(Time.timeScale);
         if (numberOfColors < 4)
         {
             for (int i = numberOfColors; i < 4; i++)
