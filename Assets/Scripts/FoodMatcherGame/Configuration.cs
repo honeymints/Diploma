@@ -7,10 +7,12 @@ using UnityEngine;
 public class Configuration : MonoBehaviour
 {
     private Grid grid;
+
+    [SerializeField] private WalkablePositions _walkablePositions;
     // Start is called before the first frame update
     void Start()
     {
-         grid = new Grid(3,3, 1f, transform.position);
+         grid = new Grid(5,8, 1f, transform.position, _walkablePositions);
     }
 
     // Update is called once per frame
