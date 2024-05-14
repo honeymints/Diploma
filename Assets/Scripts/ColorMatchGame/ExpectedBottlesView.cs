@@ -6,42 +6,35 @@ using UnityEngine;
 
 public class ExpectedBottlesView : MonoBehaviour
 {
-    public ExpectedBottleData ExpectedBottleData;
-
     public List<SpriteRenderer> bottleMasks;
-    
-    void Start()
-    {
-        InitializeBotlle();
-        SetColorForBottles();
-    }
 
-    public void SetColorForBottles()
+    public void SetColorForBottles(List<ExpectedBottle> expectedBottle)
     {
-        int count = ExpectedBottleData.ExpectedBottles.Count;
+        int count = transform.childCount;
         for (int i = 0; i < count; i++)
         {
-            SetColorForBottle(i);
+            SetColorForBottles(i, expectedBottle[i].ExpectedBottleColors);
         }
     }
         
-    public void SetColorForBottle(int i)
+    public void SetColorForBottles(int i, List<Color> expectedBottleColors)
     {
         var fillAmount = -0.25f;
-        for (int k = 0; k < ExpectedBottleData.ExpectedBottles[i].ExpectedBottleColors.Count; k++)
+        for (int k = 0; k < expectedBottleColors.Count; k++)
         {
             fillAmount += 0.105f;
-            bottleMasks[i].material.SetColor($"_C{k+1}", ExpectedBottleData.ExpectedBottles[i].ExpectedBottleColors[k]);
+            bottleMasks[i].material.SetColor($"_C{k + 1}", expectedBottleColors[k]);
             bottleMasks[i].material.SetFloat("_FillAmount", fillAmount);
         }
     }
 
-    public void InitializeBotlle()
+    public void CreateBotlles(List<ExpectedBottle> expectedBottle)
     {
-        for (int i = 0; i < transform.childCount; i++)
+        for (int i = 0; i < expectedBottle.Count; i++)
         {
             bottleMasks.Add(transform.GetChild(i).GetChild(0).GetComponentInChildren<SpriteRenderer>());
         }
+        SetColorForBottles(expectedBottle);
     }
 
 }

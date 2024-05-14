@@ -69,13 +69,9 @@ public class BottleController : MonoBehaviour
             for (int i = 0; i < expectedBottleColor.Count; i++)
             {
                 if ((int)addedColorsToBottle[i].r * 1000 == (int)expectedBottleColor[i].r * 1000)
-                {
                     matchedCount++;
-                }
                 else
-                {
                     matchedCount--;
-                }
             }
         }
         else
@@ -88,7 +84,14 @@ public class BottleController : MonoBehaviour
     {
         return matchedCount == expectedBottleColor.Count;
     }
-    
+
+    public void InitializeColors(List<Color> BottleColor)
+    {
+        for (int i = 0; i < BottleColor.Count; i++)
+        {
+            bottleColors.Add(BottleColor[i]);
+        }
+    }
     public void UpdateColors()
     {
         bottleMask.material.SetColor("_C1", bottleColors[0]);

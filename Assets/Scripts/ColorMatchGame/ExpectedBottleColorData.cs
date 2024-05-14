@@ -2,14 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[CreateAssetMenu(fileName = "ExpectedBottleData", menuName = "Data/ExpectedBottle")]
+[CreateAssetMenu(fileName = "ExpectedBottleData", menuName = "Data/BottleColorMatch")]
 public class ExpectedBottleData : ScriptableObject
 {
     public List<ExpectedBottle> ExpectedBottles;
 }
 
-[Serializable]
+/*[Serializable]
 public class ExpectedBottle
 {
     public List<Color> ExpectedBottleColors;
-}
+}*/
