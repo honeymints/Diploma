@@ -38,20 +38,18 @@ public class BottleController : MonoBehaviour
     [SerializeField] private AnimationCurve rotationSpeedCurve;
     [SerializeField] private List<Color> bottleColors;
     [SerializeField] private SpriteRenderer bottleMask;
-    public List<Color> expectedBottleColor;
+    public List<Color> expectedBottleColors;
 
     public int matchedCount;
 
     void Start()
     {
-        Debug.Log(Time.timeScale);
         if (numberOfColors < 4)
         {
-            for (int i = numberOfColors; i < 4; i++)
+            for (int i = 0; i < 4-numberOfColors; i++)
             {
                 bottleColors.AddRange(new Color[]{Color.black });
             }
-            
         }
         bottleMask.material.SetFloat("_FillAmount", fillAmounts[numberOfColors]);
         
@@ -64,11 +62,11 @@ public class BottleController : MonoBehaviour
 
     public void CheckIndexesAndMatch()
     {
-        if (addedColorsToBottle.Count == expectedBottleColor.Count)
+        if (addedColorsToBottle.Count == expectedBottleColors.Count)
         {
-            for (int i = 0; i < expectedBottleColor.Count; i++)
+            for (int i = 0; i < expectedBottleColors.Count; i++)
             {
-                if ((int)addedColorsToBottle[i].r * 1000 == (int)expectedBottleColor[i].r * 1000)
+                if ((int)addedColorsToBottle[i].r * 1000 == (int)expectedBottleColors[i].r * 1000)
                     matchedCount++;
                 else
                     matchedCount--;
@@ -82,14 +80,15 @@ public class BottleController : MonoBehaviour
 
     public bool CheckIfInitialMatchedWithExpectedBottle()
     {
-        return matchedCount == expectedBottleColor.Count;
+        return matchedCount == expectedBottleColors.Count;
     }
 
-    public void InitializeColors(List<Color> BottleColor)
+    public void InitializeColors(List<Color> bottleColor)
     {
-        for (int i = 0; i < BottleColor.Count; i++)
+        numberOfColors = bottleColor.Count;
+        for (int i = 0; i < bottleColor.Count; i++)
         {
-            bottleColors.Add(BottleColor[i]);
+            bottleColors[i]=bottleColor[i];
         }
     }
     public void UpdateColors()
@@ -311,6 +310,11 @@ public class BottleController : MonoBehaviour
             chosenRotation = rightRotation;
             directionMultiplier = 1.0f;
         }
+    }
+
+    public void InitializeExpectedBottleColors(List<Color> expectedBottleColors)
+    {
+        this.expectedBottleColors = expectedBottleColors;
     }
 }
 

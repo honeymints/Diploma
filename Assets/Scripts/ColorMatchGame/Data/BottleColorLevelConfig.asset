@@ -20,10 +20,9 @@ MonoBehaviour:
   - ExpectedBottleColors:
     - {r: 1, g: 0.15378214, b: 0, a: 0}
   - ExpectedBottleColors:
-    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 1, g: 1, b: 1, a: 0}
   InitialBottle:
-  - InitialColorBottles:
-    - {r: 0, g: 0, b: 0, a: 0}
+  - InitialColorBottles: []
   - InitialColorBottles:
     - {r: 0.77647066, g: 1, b: 0, a: 0}
   - InitialColorBottles:

@@ -8,12 +8,12 @@ public class ExpectedBottlesView : MonoBehaviour
 {
     public List<SpriteRenderer> bottleMasks;
 
-    public void SetColorForBottles(List<ExpectedBottle> expectedBottle)
+    public static void SetBottleEmpty(ref SpriteRenderer expectedBottleColor)
     {
-        int count = transform.childCount;
-        for (int i = 0; i < count; i++)
+        if (expectedBottleColor.material.GetColor("_C1").Equals(Color.black) || expectedBottleColor.material.GetColor("_C1").Equals(Color.white))
         {
-            SetColorForBottles(i, expectedBottle[i].ExpectedBottleColors);
+            var fillAmount = -0.25f;
+            expectedBottleColor.material.SetFloat("_FillAmount", fillAmount);
         }
     }
         
@@ -25,6 +25,9 @@ public class ExpectedBottlesView : MonoBehaviour
             fillAmount += 0.105f;
             bottleMasks[i].material.SetColor($"_C{k + 1}", expectedBottleColors[k]);
             bottleMasks[i].material.SetFloat("_FillAmount", fillAmount);
+
+            var expectedBottleColor = bottleMasks[i];
+            SetBottleEmpty(ref expectedBottleColor);
         }
     }
 
@@ -33,8 +36,8 @@ public class ExpectedBottlesView : MonoBehaviour
         for (int i = 0; i < expectedBottle.Count; i++)
         {
             bottleMasks.Add(transform.GetChild(i).GetChild(0).GetComponentInChildren<SpriteRenderer>());
+            SetColorForBottles(i, expectedBottle[i].ExpectedBottleColors);
         }
-        SetColorForBottles(expectedBottle);
     }
 
 }
