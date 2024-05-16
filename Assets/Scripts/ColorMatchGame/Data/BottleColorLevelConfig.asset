@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: BottleColorLevelConfig
   m_EditorClassIdentifier: 
   levelName: 
+  timeDurationForLevel: 90
   ExpectedBottles:
   - ExpectedBottleColors:
     - {r: 0, g: 0.46299243, b: 1, a: 0}
@@ -20,11 +21,12 @@ MonoBehaviour:
   - ExpectedBottleColors:
     - {r: 1, g: 0.15378214, b: 0, a: 0}
   - ExpectedBottleColors:
-    - {r: 1, g: 1, b: 1, a: 0}
+    - {r: 1, g: 0.7654687, b: 0, a: 0}
   InitialBottle:
   - InitialColorBottles: []
   - InitialColorBottles:
     - {r: 0.77647066, g: 1, b: 0, a: 0}
+    - {r: 1, g: 0.76470596, b: 0, a: 0}
   - InitialColorBottles:
     - {r: 1, g: 0.15294118, b: 0, a: 0}
     - {r: 0, g: 0.46274513, b: 1, a: 0}

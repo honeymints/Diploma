@@ -1,93 +1,131 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
+using UIView;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class GameController : MonoBehaviour
+namespace ColorMatchGame
 {
-    [SerializeField] private BottleController FirstBottle;
-    [SerializeField] private BottleController SecondBottle;
-    [SerializeField] private List<BottleController> Bottles;
-    [SerializeField] private PanelView _panelView;
-    private bool isAllFull=false;
-
-    void Start()
+    public class GameController : BaseController
     {
-        Time.timeScale = 1f;
-        Bottles.AddRange(FindObjectsOfType<BottleController>());
-    }
+        [SerializeField] private BottleController FirstBottle;
+        [SerializeField] private BottleController SecondBottle;
+        [SerializeField] private List<BottleController> Bottles;
+        public static GameController Instance { get; private set; }
+        private float currentTime = 0;
+        private float currentPoints = 0;
+        private bool isAllFull=false;
+        private bool HasPlayerWon = false;
 
-    void Update()
-    {
-        ClickOnBottles();
-    }
-
-    private void ClickOnBottles()
-    {
-        if (Input.GetMouseButtonDown(0))
+        
+        void Start()
         {
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 mousePosition2D = new Vector2(mousePosition.x, mousePosition.y);
+            Time.timeScale = 1f;
+            Bottles.AddRange(FindObjectsOfType<BottleController>());
+        }
 
-            RaycastHit2D hit = Physics2D.Raycast(mousePosition2D, Vector2.zero);
+        void Update()
+        {
+            ClickOnBottles();
+        }
 
-            if (hit.collider != null)
+        private void Awake()
+        {
+            if (Instance == null)
             {
-                if (hit.collider.GetComponent<BottleController>() != null)
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        public void StartCountDown(Image timeImage, float duration, TMP_Text timeText)
+        {
+            StartCoroutine(GameUtils.CountDown(timeImage, duration, timeText, UpdateTime, OnTimeEnd));
+        }
+        private void ClickOnBottles()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector2 mousePosition2D = new Vector2(mousePosition.x, mousePosition.y);
+
+                RaycastHit2D hit = Physics2D.Raycast(mousePosition2D, Vector2.zero);
+
+                if (hit.collider != null)
                 {
-                    if (FirstBottle == null)
+                    if (hit.collider.GetComponent<BottleController>() != null)
                     {
-                        FirstBottle = hit.collider.GetComponent<BottleController>();
-                    }
-                    else
-                    {
-                        if (FirstBottle == hit.collider.GetComponent<BottleController>())
+                        if (FirstBottle == null)
                         {
-                            FirstBottle = null;
+                            FirstBottle = hit.collider.GetComponent<BottleController>();
                         }
                         else
                         {
-                            SecondBottle = hit.collider.GetComponent<BottleController>();
-                            FirstBottle.bottleContrRef = SecondBottle;
+                            if (FirstBottle == hit.collider.GetComponent<BottleController>())
+                            {
+                                FirstBottle = null;
+                            }
+                            else
+                            {
+                                SecondBottle = hit.collider.GetComponent<BottleController>();
+                                FirstBottle.bottleContrRef = SecondBottle;
 
-                            FirstBottle.UpdateTopColors();
-                            SecondBottle.UpdateTopColors();
+                                FirstBottle.UpdateTopColors();
+                                SecondBottle.UpdateTopColors();
 
-                            FirstBottle.StartColorTransferring();
+                                FirstBottle.StartColorTransferring();
 
-                            SecondBottle.CheckIndexesAndMatch();
-                            FirstBottle.CheckIndexesAndMatch();
+                                SecondBottle.CheckIndexesAndMatch();
+                                FirstBottle.CheckIndexesAndMatch();
 
-                            FirstBottle = null;
-                            SecondBottle = null;
+                                FirstBottle = null;
+                                SecondBottle = null;
+                            }
                         }
                     }
                 }
             }
+
+            if (!isAllFull)
+            {
+                StartCoroutine(CheckIfAllBottlesAreMatched(3f));
+            }
         }
 
-        if (!isAllFull)
+        private void UpdateTime(float timeLeft)
         {
-            StartCoroutine(CheckIfAllBottlesAreMatched(4f));
+            currentTime = timeLeft;  
         }
-    }
 
-    private void Win()
-    {
-        _panelView.ShowPanel("Nice job!");
-        GetComponent<GameController>().enabled = false;
-    }
-
-    private IEnumerator CheckIfAllBottlesAreMatched(float timeLeft)
-    {
-        if(Bottles.All(x => x.CheckIfInitialMatchedWithExpectedBottle()))
+        private void OnTimeEnd()
         {
-            isAllFull = true;
+            if (!HasPlayerWon)
+            {
+                Debug.Log("LOST!");
+            }
+        }
+        private IEnumerator CheckIfAllBottlesAreMatched(float timeLeft)
+        {
+            if(Bottles.All(x => x.CheckIfInitialMatchedWithExpectedBottle()))
+            {
+                isAllFull = true;
 
-            yield return new WaitForSeconds(timeLeft);
-            
-            Win();
+                yield return new WaitForSeconds(timeLeft);
+
+                HasPlayerWon = true;
+                Win();
+            }
+        }
+
+        protected void Win()
+        {
+            base.Win<GameController>();
         }
     }
 }
