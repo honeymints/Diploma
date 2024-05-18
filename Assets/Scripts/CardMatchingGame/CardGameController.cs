@@ -5,6 +5,7 @@ using ColorMatchGame;
 using UIView;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -12,7 +13,7 @@ namespace CardMatchingGame
 {
     public class CardGameController : BaseController
     {
-        [SerializeField] private CardGameData _cardGameData;
+        [SerializeField] private CardGameLevelConfiguration cardGameLevelConfiguration;
         [SerializeField] private GameObject _cardPrefab;
         [SerializeField] private GameObject _panel;
     
@@ -25,7 +26,7 @@ namespace CardMatchingGame
 
         private bool _firstCardClick, _secondCardClick;
         private int _firstIndex, _secondIndex;
-        private int _correctGuesses, _totalGuesses;
+        private int _correctGuesses, _totalGuesses; 
     
         [SerializeField] private PanelView _panelView;
     
@@ -46,7 +47,7 @@ namespace CardMatchingGame
     
         private void CreateCards()
         {
-            for (int i = 0; i < _cardGameData.sizeOfColumns * _cardGameData.sizeOfRows; i++)
+            for (int i = 0; i < cardGameLevelConfiguration.sizeOfColumns * cardGameLevelConfiguration.sizeOfRows; i++)
             {
                 var card = Instantiate(_cardPrefab, _cardPrefab.transform.position, Quaternion.identity);
                 card.transform.SetParent(_panel.transform);
@@ -56,7 +57,7 @@ namespace CardMatchingGame
                 cardPrefabs.Add(card.GetComponent<Button>());
             }
 
-            _panel.GetComponent<GridLayoutGroup>().constraintCount = _cardGameData.sizeOfColumns;
+            _panel.GetComponent<GridLayoutGroup>().constraintCount = cardGameLevelConfiguration.sizeOfColumns;
         }
 
         public void AddSprites()
@@ -198,7 +199,7 @@ namespace CardMatchingGame
         {
             if (_correctGuesses == cardPrefabs.Count/2)
             {
-                Win<CardGameController>();
+                Win<CardGameController>(100);
             }
         }
     }

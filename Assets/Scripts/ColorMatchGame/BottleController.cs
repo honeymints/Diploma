@@ -8,7 +8,7 @@ namespace ColorMatchGame
     public class BottleController : MonoBehaviour
     {
         [SerializeField] private float rotationTime=1f;
-
+        
         [SerializeField] private float[] fillAmounts;
         [SerializeField] private float[] rotationAngles;
 
@@ -18,7 +18,6 @@ namespace ColorMatchGame
 
         public Color TopColor;
         private int numberOfTopColorLayers=1;
-    
         private int numberOfColorsToAdd;
     
         public BottleController bottleContrRef;
@@ -105,21 +104,25 @@ namespace ColorMatchGame
         {
             ChoseRotationAndDirection();
             numberOfColorsToAdd = Mathf.Min(numberOfTopColorLayers, 4-bottleContrRef.numberOfColors);
-            for (int i=0;i<numberOfColorsToAdd;i++)
+            if (numberOfColors != 0)
             {
-                bottleContrRef.bottleColors[bottleContrRef.numberOfColors + i] = TopColor;
-                bottleContrRef.addedColorsToBottle.Add(TopColor);
-                addedColorsToBottle.Remove(TopColor);
+                
+                for (int i=0;i<numberOfColorsToAdd;i++)
+                {
+                    bottleContrRef.bottleColors[bottleContrRef.numberOfColors + i] = TopColor;
+                    bottleContrRef.addedColorsToBottle.Add(TopColor);
+                    addedColorsToBottle.Remove(TopColor);
+                }
+
+                bottleContrRef.UpdateColors();
+        
+                CalculateRotationIndex(4-bottleContrRef.numberOfColors);
+
+                GetComponent<SpriteRenderer>().sortingOrder += 2;
+                bottleMask.sortingOrder += 2;
+        
+                StartCoroutine(MoveBottle());
             }
-
-            bottleContrRef.UpdateColors();
-        
-            CalculateRotationIndex(4-bottleContrRef.numberOfColors);
-
-            GetComponent<SpriteRenderer>().sortingOrder += 2;
-            bottleMask.sortingOrder += 2;
-        
-            StartCoroutine(MoveBottle());
         }
         IEnumerator RotateBottle()
         {

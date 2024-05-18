@@ -11,8 +11,8 @@ namespace ColorMatchGame
         public float timeDurationForLevel;
         public List<ExpectedBottle> ExpectedBottles;
         public List<InitialBottle> InitialBottle;
-    
     }
+    
     [Serializable]
     public class InitialBottle
     {

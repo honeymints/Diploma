@@ -6,36 +6,25 @@ using UnityEngine.UI;
 
 namespace ColorMatchGame
 {
-    public class LevelManager : MonoBehaviour
+    public class ColorMatchLevelManager : MonoBehaviour
     {
-        public static LevelManager Instance { get; private set; }
         public BottleColorMatchLevelConfiguration currentLevelConfig;
-        public GameObject timePrefab;
+        [SerializeField] private GameObject timePrefab;
+        [SerializeField] private BaseController GameController;
 
         private const string prefabPath="Prefabs/Bottle";
         private const string expectedBottlePrefabPath = "Prefabs/Expected Bottle";
         private const string expectedBottlesView = "Prefabs/ExpectedBottlesView";
-
-        void Awake()
-        {
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-            {
-                Destroy(this.gameObject);
-            }
-        }
+        
         void Start()
         {
+            Debug.Log(Time.timeScale);
             if (currentLevelConfig != null)
             {
                 ConfigureLevel();
                 TMP_Text timeText=timePrefab.GetComponentInChildren<TMP_Text>();
                 Image timeImg = timePrefab.GetComponent<Image>();
-                GameController.Instance.StartCountDown(timeImg, currentLevelConfig.timeDurationForLevel, timeText);
+                GameController.StartCountDown<BaseController>(timeImg, currentLevelConfig.timeDurationForLevel, timeText);
             }
             else
             {
@@ -103,7 +92,6 @@ namespace ColorMatchGame
             }
         
         }
-    
-    
+
     }
 }

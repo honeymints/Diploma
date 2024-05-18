@@ -8,20 +8,18 @@ using UnityEngine.UI;
 
 namespace ColorMatchGame
 {
-    public class GameController : BaseController
+    public class BottleGameController : BaseController
     {
         [SerializeField] private BottleController FirstBottle;
         [SerializeField] private BottleController SecondBottle;
         [SerializeField] private List<BottleController> Bottles;
-        public static GameController Instance { get; private set; }
-        private float currentTime = 0;
-        private float currentPoints = 0;
-        private bool isAllFull=false;
-        private bool HasPlayerWon = false;
-
         
+        private bool isAllFull=false;
+
         void Start()
         {
+            currentTime = 0f;
+            currentPoints = 0f;
             Time.timeScale = 1f;
             Bottles.AddRange(FindObjectsOfType<BottleController>());
         }
@@ -31,23 +29,6 @@ namespace ColorMatchGame
             ClickOnBottles();
         }
 
-        private void Awake()
-        {
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-        }
-
-        public void StartCountDown(Image timeImage, float duration, TMP_Text timeText)
-        {
-            StartCoroutine(GameUtils.CountDown(timeImage, duration, timeText, UpdateTime, OnTimeEnd));
-        }
         private void ClickOnBottles()
         {
             if (Input.GetMouseButtonDown(0))
@@ -97,35 +78,24 @@ namespace ColorMatchGame
                 StartCoroutine(CheckIfAllBottlesAreMatched(3f));
             }
         }
-
-        private void UpdateTime(float timeLeft)
-        {
-            currentTime = timeLeft;  
-        }
-
-        private void OnTimeEnd()
-        {
-            if (!HasPlayerWon)
-            {
-                Debug.Log("LOST!");
-            }
-        }
+        
         private IEnumerator CheckIfAllBottlesAreMatched(float timeLeft)
         {
             if(Bottles.All(x => x.CheckIfInitialMatchedWithExpectedBottle()))
             {
                 isAllFull = true;
 
+                currentPoints = 100f;
+                
                 yield return new WaitForSeconds(timeLeft);
 
-                HasPlayerWon = true;
-                Win();
+                _hasPlayerWon = true;
+                
+                GameUtils.CountPoints(currentTime, ref currentPoints);
+                Win<BottleGameController>(currentPoints);
+                
             }
         }
-
-        protected void Win()
-        {
-            base.Win<GameController>();
-        }
+        
     }
 }
