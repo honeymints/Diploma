@@ -13,10 +13,6 @@ namespace CardMatchingGame
 {
     public class CardGameController : BaseController
     {
-        [SerializeField] private CardGameLevelConfiguration cardGameLevelConfiguration;
-        [SerializeField] private GameObject _cardPrefab;
-        [SerializeField] private GameObject _panel;
-    
         [SerializeField] private int rotationSpeed;
         [SerializeField] private Sprite initialSprite;
 
@@ -38,26 +34,15 @@ namespace CardMatchingGame
         void Start()
         {
             Time.timeScale = 1f;
-            CreateCards();
             AddListener();
             AddSprites();
             Randomize(usedCards);
             initialSprite = cardPrefabs[0].image.sprite;
         }
-    
-        private void CreateCards()
+
+        public void CreateCards(List<Button> cardBtn)
         {
-            for (int i = 0; i < cardGameLevelConfiguration.sizeOfColumns * cardGameLevelConfiguration.sizeOfRows; i++)
-            {
-                var card = Instantiate(_cardPrefab, _cardPrefab.transform.position, Quaternion.identity);
-                card.transform.SetParent(_panel.transform);
-                card.name = $"{_cardPrefab.name} #{i + 1}";
-                card.transform.localScale = Vector3.one;
-
-                cardPrefabs.Add(card.GetComponent<Button>());
-            }
-
-            _panel.GetComponent<GridLayoutGroup>().constraintCount = cardGameLevelConfiguration.sizeOfColumns;
+            cardPrefabs.AddRange(cardBtn);
         }
 
         public void AddSprites()

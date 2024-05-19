@@ -18,17 +18,21 @@ namespace ColorMatchGame
         
         void Start()
         {
-            Debug.Log(Time.timeScale);
+            InitializeLevel();
+        }
+
+        private void InitializeLevel()
+        {
             if (currentLevelConfig != null)
             {
                 ConfigureLevel();
-                TMP_Text timeText=timePrefab.GetComponentInChildren<TMP_Text>();
+                TMP_Text timeText = timePrefab.GetComponentInChildren<TMP_Text>();
                 Image timeImg = timePrefab.GetComponent<Image>();
                 GameController.StartCountDown<BaseController>(timeImg, currentLevelConfig.timeDurationForLevel, timeText);
             }
             else
             {
-                Debug.LogError("This level is not configured!");
+                Debug.LogError("This level configuration is not set!");
             }
         }
 

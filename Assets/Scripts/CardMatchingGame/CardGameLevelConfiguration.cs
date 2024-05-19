@@ -7,5 +7,6 @@ namespace CardMatchingGame
     {
         public int sizeOfColumns;
         public int sizeOfRows;
+        public float timeDurationForLevel;
     }
 }

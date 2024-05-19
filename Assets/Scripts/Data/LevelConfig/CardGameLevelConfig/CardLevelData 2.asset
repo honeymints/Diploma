@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f01961a4e50cd1b4fa5a1fcc0b25e6d9, type: 3}
-  m_Name: CardLevelData
+  m_Name: CardLevelData 2
   m_EditorClassIdentifier: 
-  sizeOfColumns: 4
-  sizeOfRows: 3
+  sizeOfColumns: 5
+  sizeOfRows: 4
+  timeDurationForLevel: 90
