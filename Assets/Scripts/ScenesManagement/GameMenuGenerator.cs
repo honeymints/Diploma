@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -13,11 +14,9 @@ public class GameMenuGenerator : MonoBehaviour
     [SerializeField] private GameObject gridLayout; 
     
     private const string sceneDirectoryPath = "Assets/Scenes";
-    private const string bottleGameScenePath = "Assets/Scenes/Game #1";
-    private const string cardGameScenePath = "Assets/Scenes/Game #2";
     private const string levelButtonPrefabPath="Prefabs/LevelButton";
 
-    private List<string> scenePaths = new List<string>();
+    public List<string> scenePaths = new List<string>();
     private string currentScene;
     
     void Start()
@@ -60,6 +59,7 @@ public class GameMenuGenerator : MonoBehaviour
             GameObject buttonPrefab = Resources.Load<GameObject>(levelButtonPrefabPath);
             GameObject button = Instantiate(buttonPrefab, GameObject.FindWithTag("Layout").transform);
             button.GetComponentInChildren<TMP_Text>().text=(count+1).ToString();
+            
             button.GetComponent<Button>().onClick.AddListener(() => LoadScene(scenePath));
             count++;
         }
@@ -81,8 +81,18 @@ public class GameMenuGenerator : MonoBehaviour
         else
         {
             var directoryPaths = Directory.GetFiles(directoryPath, "*.unity", SearchOption.AllDirectories)
-                .Where(x=>!x.Contains($"{currentScene}.unity"));
+                .Where(x=>!x.Contains($"{currentScene}.unity")).OrderBy(x => ExtractLevelNumber(x)).ToList();
             return new List<string>(directoryPaths);
         }
     }
+    private int ExtractLevelNumber(string filePath)
+    {
+        var match = Regex.Match(filePath, @"Level (\d+)\.unity");
+        if (match.Success && int.TryParse(match.Groups[1].Value, out int levelNumber))
+        {
+            return levelNumber;
+        }
+        return int.MaxValue; 
+    }
+
 }
