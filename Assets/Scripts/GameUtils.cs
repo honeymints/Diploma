@@ -20,29 +20,26 @@ public class GameUtils
         onTimeEnd?.Invoke();
     }
     
-    public static void CountPoints(float timeLeft, ref float currentPoints)
+    public static void CountPoints(float totalTime, float timeLeft, ref float currentPoints)
     {
-        if (timeLeft > 0 && timeLeft <= 10f)
+        var t = totalTime / 3;
+        Debug.Log(t);
+        if (t>timeLeft)
         {
-            currentPoints += 10;
+            currentPoints += .1f*currentPoints;
         }
-        else if (timeLeft>10f && timeLeft<=20f)
+        else if (timeLeft>=t && timeLeft<totalTime/2f)
         {
-            currentPoints += 20;
+            currentPoints += .2f*currentPoints;
         }
-        else if(timeLeft>20f && timeLeft<=40f)
+        else if(timeLeft>=totalTime/2f && timeLeft<totalTime/1.5f)
         {
-            currentPoints += 30;
+            currentPoints += .3f*currentPoints;
         }
         else
         {
-            currentPoints += 40;
+            currentPoints += .4f*currentPoints;
         } 
     }
 
-    public static void CountPoints(float totalPoints)
-    {
-        
-    }
-    
 }

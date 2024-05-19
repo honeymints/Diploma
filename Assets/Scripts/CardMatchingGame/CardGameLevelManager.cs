@@ -20,6 +20,7 @@ public class CardGameLevelManager : MonoBehaviour
         void Start()
         {
             InitializeLevel();
+            GameController.SetFullTime<BaseController>(currentLevelConfig.timeDurationForLevel);
         }
 
         private void InitializeLevel()

@@ -25,7 +25,7 @@ namespace ColorMatchGame
         [SerializeField] private Transform rightRotation;
     
         private Transform chosenRotation;
-
+        
         public List<Color> addedColorsToBottle;
     
         private float directionMultiplier=1.0f;
@@ -44,6 +44,7 @@ namespace ColorMatchGame
 
         void Start()
         {
+            
             if (numberOfColors < 4)
             {
                 for (int i = 0; i < 4-numberOfColors; i++)

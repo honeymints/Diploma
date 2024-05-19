@@ -19,6 +19,7 @@ namespace ColorMatchGame
         void Start()
         {
             InitializeLevel();
+            GameController.SetFullTime<BaseController>(currentLevelConfig.timeDurationForLevel);
         }
 
         private void InitializeLevel()

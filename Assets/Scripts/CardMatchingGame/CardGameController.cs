@@ -5,7 +5,6 @@ using ColorMatchGame;
 using UIView;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -22,7 +21,8 @@ namespace CardMatchingGame
 
         private bool _firstCardClick, _secondCardClick;
         private int _firstIndex, _secondIndex;
-        private int _correctGuesses, _totalGuesses; 
+        private int _correctGuesses, _totalGuesses;
+        private int _incorrectGuesss;
     
         [SerializeField] private PanelView _panelView;
     
@@ -34,9 +34,11 @@ namespace CardMatchingGame
         void Start()
         {
             Time.timeScale = 1f;
+            currentPoints = 100f;
             AddListener();
             AddSprites();
             Randomize(usedCards);
+            
             initialSprite = cardPrefabs[0].image.sprite;
         }
 
@@ -45,7 +47,7 @@ namespace CardMatchingGame
             cardPrefabs.AddRange(cardBtn);
         }
 
-        public void AddSprites()
+        private void AddSprites()
         {
             int index = 0;
             for (int i = 0; i < cardPrefabs.Count; i++)
@@ -58,8 +60,8 @@ namespace CardMatchingGame
                 index++;
             }
         }
-    
-        public void AddListener()
+
+        private void AddListener()
         {
             for (int i=0;i< cardPrefabs.Count;i++)
             {
@@ -67,7 +69,7 @@ namespace CardMatchingGame
             }
         }
 
-        public void Click()
+        private void Click()
         {
             Button card;
             if (!_firstCardClick)
@@ -88,7 +90,7 @@ namespace CardMatchingGame
             StartCoroutine(CheckIfMatched());
         }
 
-        public IEnumerator CheckIfMatched()
+        private IEnumerator CheckIfMatched()
         {
             yield return new WaitForSeconds(0.5f);
         
@@ -106,6 +108,7 @@ namespace CardMatchingGame
                     yield return new WaitForSeconds(0.5f);
                     StartCoroutine(TurnCardAroundBack(cardPrefabs[_firstIndex]));
                     StartCoroutine(TurnCardAroundBack(cardPrefabs[_secondIndex]));
+                    _incorrectGuesss++;
                 }
 
                 _totalGuesses++;
@@ -180,12 +183,35 @@ namespace CardMatchingGame
             }
         }
 
-        public void CountGuesses()
+        private void CountGuesses()
         {
             if (_correctGuesses == cardPrefabs.Count/2)
             {
-                Win<CardGameController>(100);
+                CompareGuesses();
+                GameUtils.CountPoints(totalTime, currentTime, ref currentPoints);
+                Win<CardGameController>(currentPoints);
             }
+        }
+
+        private void CompareGuesses()
+        {
+            if (_correctGuesses < _incorrectGuesss)
+            {
+                currentPoints -= .5f * currentPoints;
+            }
+            else if (_correctGuesses > _incorrectGuesss)
+            {
+                currentPoints += .25f * currentPoints;
+            }
+            else if (_correctGuesses == _incorrectGuesss)
+            {
+                currentPoints -= .25f * currentPoints;
+            }
+            else if (_totalGuesses == _correctGuesses)
+            {
+                currentPoints += .5f * currentPoints;
+            }
+            
         }
     }
 }

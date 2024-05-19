@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
-using UIView;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,13 +11,12 @@ namespace ColorMatchGame
         [SerializeField] private BottleController FirstBottle;
         [SerializeField] private BottleController SecondBottle;
         [SerializeField] private List<BottleController> Bottles;
-        
-        private bool isAllFull=false;
 
+        private bool isAllFull=false;
         void Start()
         {
             currentTime = 0f;
-            currentPoints = 0f;
+            currentPoints = 100f;
             Time.timeScale = 1f;
             Bottles.AddRange(FindObjectsOfType<BottleController>());
         }
@@ -85,13 +82,11 @@ namespace ColorMatchGame
             {
                 isAllFull = true;
 
-                currentPoints = 100f;
-                
                 yield return new WaitForSeconds(timeLeft);
 
                 _hasPlayerWon = true;
                 
-                GameUtils.CountPoints(currentTime, ref currentPoints);
+                GameUtils.CountPoints(totalTime, currentTime, ref currentPoints);
                 Win<BottleGameController>(currentPoints);
                 
             }
