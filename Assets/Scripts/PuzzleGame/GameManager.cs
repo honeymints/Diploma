@@ -67,4 +67,20 @@ public class GameManager : MonoBehaviour
         camPos.y = (_level.Rows + 0.5f + startPos.y) * 0.5f;
         Camera.main.transform.position = camPos;
     }
+
+    private void Update() 
+    {
+        if (hasGameFinished) return;
+    }
+
+    private void CheckWin()
+    {
+        for(int i=0; i < _level.Rows; i++) 
+        {
+            for(int j=0; j < _level.Columns; j++)
+            {
+                if (!bgCellGrid[i, j].IsFilled) return;
+            }
+        }
+    }
 }
