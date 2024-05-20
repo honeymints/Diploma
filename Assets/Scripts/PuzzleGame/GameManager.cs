@@ -68,19 +68,163 @@ public class GameManager : MonoBehaviour
         Camera.main.transform.position = camPos;
     }
 
-    private void Update() 
+    private void Update()
     {
         if (hasGameFinished) return;
+
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+            if (!hit) return;
+            currentBlock = hit.collider.transform.parent.GetComponent<Block>();
+            if (currentBlock == null) return;
+            currentPos = mousePos2D;
+            previousPos = mousePos2D;
+            currentBlock.ElevateSprites();
+            currentBlock.transform.localScale = Vector3.one * _blockHighLightSize;
+            if (gridBlocks.Contains(currentBlock))
+            {
+                gridBlocks.Remove(currentBlock);
+            }
+            UpdateFilled();
+            ResetHighLight();
+            UpdateHighLight();
+        }
+        else if (Input.GetMouseButton(0) && currentBlock != null)
+        {
+            currentPos = mousePos;
+            currentBlock.UpdatePos(currentPos - previousPos);
+            previousPos = currentPos;
+            ResetHighLight();
+            UpdateHighLight();
+        }
+        else if (Input.GetMouseButtonUp(0) && currentBlock != null)
+        {
+            currentBlock.ElevateSprites(true);
+
+            if (IsCorrectMove())
+            {
+                currentBlock.UpdateCorrectMove();
+                currentBlock.transform.localScale = Vector3.one * _blockPutSize;
+                gridBlocks.Add(currentBlock);
+            }
+            else if (mousePos2D.y < 0)
+            {
+                currentBlock.UpdateStartMove();
+                currentBlock.transform.localScale = Vector3.one * _blockSpawnSize;
+            }
+            else
+            {
+                currentBlock.UpdateIncorrectMove();
+                if (currentBlock.CurrentPos.y > 0)
+                {
+                    gridBlocks.Add(currentBlock);
+                    currentBlock.transform.localScale = Vector3.one * _blockPutSize;
+                }
+                else
+                {
+                    currentBlock.transform.localScale = Vector3.one * _blockSpawnSize;
+                }
+            }
+
+            currentBlock = null;
+            ResetHighLight();
+            UpdateFilled();
+            CheckWin();
+        }
+    }
+
+    private void ResetHighLight()
+    {
+        for (int i = 0; i < _level.Rows; i++)
+        {
+            for (int j = 0; j < _level.Columns; j++)
+            {
+                if (!bgCellGrid[i, j].IsBlocked)
+                {
+                    bgCellGrid[i, j].ResetHighLight();
+                }
+            }
+        }
+    }
+
+    private void UpdateFilled()
+    {
+        for (int i = 0; i < _level.Rows; i++)
+        {
+            for (int j = 0; j < _level.Columns; j++)
+            {
+                if (!bgCellGrid[i, j].IsBlocked)
+                {
+                    bgCellGrid[i, j].IsFilled = false;
+                }
+            }
+        }
+
+        foreach (var block in gridBlocks)
+        {
+            foreach (var pos in block.BlockPositions())
+            {
+                if (IsValidPos(pos))
+                {
+                    bgCellGrid[pos.x, pos.y].IsFilled = true;
+                }
+            }
+        }
+    }
+
+    private void UpdateHighLight()
+    {
+        bool isCorrect = IsCorrectMove();
+        foreach (var pos in currentBlock.BlockPositions())
+        {
+            if (IsValidPos(pos))
+            {
+                bgCellGrid[pos.x, pos.y].UpdateHighlight(isCorrect);
+            }
+        }
+    }
+
+    private bool IsCorrectMove()
+    {
+        foreach (var pos in currentBlock.BlockPositions())
+        {
+            if (!IsValidPos(pos) || bgCellGrid[pos.x, pos.y].IsFilled)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private bool IsValidPos(Vector2Int pos)
+    {
+        return pos.x >= 0 && pos.y >= 0 && pos.x < _level.Rows && pos.y < _level.Columns;
     }
 
     private void CheckWin()
     {
-        for(int i=0; i < _level.Rows; i++) 
+        for (int i = 0; i < _level.Rows; i++)
         {
-            for(int j=0; j < _level.Columns; j++)
+            for (int j = 0; j < _level.Columns; j++)
             {
-                if (!bgCellGrid[i, j].IsFilled) return;
+                if (!bgCellGrid[i, j].IsFilled)
+                {
+                    return;
+                }
             }
         }
+
+        hasGameFinished = true;
+        StartCoroutine(GameWin());
+    }
+
+    private IEnumerator GameWin()
+    {
+        yield return new WaitForSeconds(2f);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 }
