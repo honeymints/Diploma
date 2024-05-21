@@ -15,10 +15,15 @@ namespace ColorMatchGame
         private const string prefabPath="Prefabs/Bottle";
         private const string expectedBottlePrefabPath = "Prefabs/Expected Bottle";
         private const string expectedBottlesView = "Prefabs/ExpectedBottlesView";
-        
-        void Start()
+
+        private void Awake()
         {
             InitializeLevel();
+        }
+
+        void Start()
+        {
+            
             GameController.SetFullTime<BaseController>(currentLevelConfig.timeDurationForLevel);
         }
 

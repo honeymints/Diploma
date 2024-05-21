@@ -38,7 +38,6 @@ namespace CardMatchingGame
             AddListener();
             AddSprites();
             Randomize(usedCards);
-            
             initialSprite = cardPrefabs[0].image.sprite;
         }
 
@@ -211,7 +210,6 @@ namespace CardMatchingGame
             {
                 currentPoints += .5f * currentPoints;
             }
-            
         }
     }
 }

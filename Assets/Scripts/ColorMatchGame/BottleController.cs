@@ -39,12 +39,11 @@ namespace ColorMatchGame
         [SerializeField] private List<Color> bottleColors;
         [SerializeField] private SpriteRenderer bottleMask;
         public List<Color> expectedBottleColors;
-
         public int matchedCount;
 
         void Start()
         {
-            
+            matchedCount = 0;
             if (numberOfColors < 4)
             {
                 for (int i = 0; i < 4-numberOfColors; i++)
@@ -79,12 +78,6 @@ namespace ColorMatchGame
                 matchedCount = 0;
             }
         }
-
-        public bool CheckIfInitialMatchedWithExpectedBottle()
-        {
-            return matchedCount == expectedBottleColors.Count;
-        }
-
         public void InitializeColors(List<Color> bottleColor)
         {
             numberOfColors = bottleColor.Count;

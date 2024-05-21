@@ -13,17 +13,32 @@ MonoBehaviour:
   m_Name: BottleColorLevelConfig 8
   m_EditorClassIdentifier: 
   levelName: 
-  timeDurationForLevel: 120
+  timeDurationForLevel: 150
   ExpectedBottles:
   - ExpectedBottleColors:
-    - {r: 0.16470589, g: 1, b: 0, a: 0}
+    - {r: 0, g: 1, b: 0.6120992, a: 0}
+    - {r: 0, g: 0.77634525, b: 1, a: 0}
   - ExpectedBottleColors:
-    - {r: 1, g: 0, b: 0.9882353, a: 0}
-    - {r: 0, g: 1, b: 0.87058824, a: 0}
+    - {r: 0, g: 0.23110771, b: 1, a: 0}
+    - {r: 0.5743613, g: 0, b: 1, a: 0}
   - ExpectedBottleColors:
-    - {r: 1, g: 0, b: 0.83137256, a: 0}
-    - {r: 1, g: 0.91764706, b: 0, a: 0}
+    - {r: 1, g: 0, b: 0.8487296, a: 0}
+    - {r: 1, g: 0.07907441, b: 0, a: 0}
   - ExpectedBottleColors:
-    - {r: 1, g: 0, b: 0.83137256, a: 0}
-    - {r: 1, g: 0.91764706, b: 0, a: 0}
-  InitialBottle: []
+    - {r: 1, g: 0.74312997, b: 0, a: 0}
+    - {r: 0.997185, g: 1, b: 0, a: 0}
+    - {r: 0.61946535, g: 1, b: 0, a: 0}
+  InitialBottle:
+  - InitialColorBottles:
+    - {r: 0.61960787, g: 1, b: 0, a: 0}
+    - {r: 1, g: 0.7411765, b: 0, a: 0}
+    - {r: 1, g: 0, b: 0.8470589, a: 0}
+  - InitialColorBottles:
+    - {r: 0, g: 0.77647066, b: 1, a: 0}
+    - {r: 0, g: 0.23137257, b: 1, a: 0}
+    - {r: 0.57254905, g: 0, b: 1, a: 0}
+  - InitialColorBottles:
+    - {r: 1, g: 0.078431375, b: 0, a: 0}
+    - {r: 0, g: 1, b: 0.6117647, a: 0}
+  - InitialColorBottles:
+    - {r: 0.99607843, g: 1, b: 0, a: 0}

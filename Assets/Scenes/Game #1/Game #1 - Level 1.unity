@@ -579,10 +579,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: LoseBackground
       objectReference: {fileID: 0}
+    - target: {fileID: 2553913916440460822, guid: 6c539daf615eb90469073995a4c4afbc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5547935010866274488, guid: 6c539daf615eb90469073995a4c4afbc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2131703045}
+    - target: {fileID: 5547935010866274488, guid: 6c539daf615eb90469073995a4c4afbc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -972,6 +980,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8777831796388664637}
     m_Modifications:
+    - target: {fileID: 383375761540492682, guid: 7806205dd257e8a40b6f5120a6abae2b, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 7b5428cff3ced46499f7d1efd60f7ee1, type: 2}
     - target: {fileID: 2403039037819032205, guid: 7806205dd257e8a40b6f5120a6abae2b, type: 3}
       propertyPath: m_Name
       value: WinBackground
@@ -1064,6 +1076,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 2131703045}
+    - target: {fileID: 7034089634302538425, guid: 7806205dd257e8a40b6f5120a6abae2b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8245754946145002815, guid: 7806205dd257e8a40b6f5120a6abae2b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

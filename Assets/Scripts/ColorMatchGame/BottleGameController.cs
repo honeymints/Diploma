@@ -13,6 +13,8 @@ namespace ColorMatchGame
         [SerializeField] private List<BottleController> Bottles;
 
         private bool isAllFull=false;
+        private int countOfMatchedBottles;
+        private bool coroutineRunning = false;
         void Start()
         {
             currentTime = 0f;
@@ -24,8 +26,17 @@ namespace ColorMatchGame
         void Update()
         {
             ClickOnBottles();
+            
         }
 
+        public void IncrementCountOfMatchedBottles()
+        {
+            var allMatched = Bottles.All(x => x.matchedCount == x.expectedBottleColors.Count);
+            Debug.Log($"All matched:{allMatched}");
+            /*Debug.Log("matched count " + Bottles[0].matchedCount);*/
+            Debug.Log("expected bottle count" + Bottles[0].expectedBottleColors.Count);
+            CheckIfAllBottlesAreMatched(allMatched);
+        }
         private void ClickOnBottles()
         {
             if (Input.GetMouseButtonDown(0))
@@ -61,6 +72,7 @@ namespace ColorMatchGame
 
                                 SecondBottle.CheckIndexesAndMatch();
                                 FirstBottle.CheckIndexesAndMatch();
+                                IncrementCountOfMatchedBottles();
 
                                 FirstBottle = null;
                                 SecondBottle = null;
@@ -69,28 +81,41 @@ namespace ColorMatchGame
                     }
                 }
             }
-
-            if (!isAllFull)
-            {
-                StartCoroutine(CheckIfAllBottlesAreMatched(3f));
-            }
+            
         }
-        
-        private IEnumerator CheckIfAllBottlesAreMatched(float timeLeft)
+
+        private void CheckIfAllBottlesAreMatched(bool allMatched)
         {
-            if(Bottles.All(x => x.CheckIfInitialMatchedWithExpectedBottle()))
+            /*var allMatched = true;
+            foreach (var bottle in Bottles)
             {
+                /*if (!bottle.CheckIfInitialMatchedWithExpectedBottle())
+                {
+                    Debug.Log("not matched");
+                    allMatched = false;
+                    break;
+                }#1#
+            }*/
+
+            if (allMatched)
+            {
+                Debug.Log("matched");
                 isAllFull = true;
+                Invoke("HandleWin", 3f); // Call HandleWin method after 3 seconds
+            }
+        
+        }
 
-                yield return new WaitForSeconds(timeLeft);
-
+        private void HandleWin()
+        {
+            if (isAllFull)
+            {
                 _hasPlayerWon = true;
-                
                 GameUtils.CountPoints(totalTime, currentTime, ref currentPoints);
                 Win<BottleGameController>(currentPoints);
-                
             }
         }
         
     }
 }
+
