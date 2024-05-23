@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int CellValue;
+    [SerializeField] private List<Sprite> _cellSprites;
+    [SerializeField] private SpriteRenderer _cellRenderer;
 
-    // Update is called once per frame
-    void Update()
+    private int spriteIndex => CellValue + 1;
+
+    public void Init(int cellValue)
     {
-        
+        CellValue = cellValue;
+        _cellRenderer.sprite = _cellSprites[spriteIndex];
     }
 }
