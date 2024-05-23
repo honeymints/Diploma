@@ -12,9 +12,11 @@ Library: C:\Users\aruch\Diploma\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_bur
 --assembly-defines=Assembly-CSharp;
 --assembly-defines=Mono.Security;
 --assembly-defines=mscorlib;
+--assembly-defines=PlayFab;
 --assembly-defines=System.Configuration;
 --assembly-defines=System.Core;
 --assembly-defines=System;
+--assembly-defines=System.Numerics;
 --assembly-defines=System.Xml;
 --assembly-defines=Unity.2D.Animation.Runtime;
 --assembly-defines=Unity.Burst;
@@ -49,9 +51,11 @@ Library: C:\Users\aruch\Diploma\Temp\BurstOutput\tempburstlibs\arm64-v8a\lib_bur
 --assembly-defines=Assembly-CSharp;
 --assembly-defines=Mono.Security;
 --assembly-defines=mscorlib;
+--assembly-defines=PlayFab;
 --assembly-defines=System.Configuration;
 --assembly-defines=System.Core;
 --assembly-defines=System;
+--assembly-defines=System.Numerics;
 --assembly-defines=System.Xml;
 --assembly-defines=Unity.2D.Animation.Runtime;
 --assembly-defines=Unity.Burst;
