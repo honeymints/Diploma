@@ -18,7 +18,7 @@ public class SpawnedBlock : MonoBehaviour
         {
             Transform block = Instantiate(_blockPrefab, transform);
             block.transform.localPosition = new Vector3(
-                piece.BlockPositions.[i].y,
+                piece.BlockPositions[i].y,
                 piece.BlockPositions[i].x,
                 0);
             block.GetComponent<SpriteRenderer>().sprite = currentSprite;

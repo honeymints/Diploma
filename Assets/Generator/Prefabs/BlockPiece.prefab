@@ -44,3 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ece1f1c59ac0ee34a917d63d132e8f8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _blockPrefab: {fileID: 1578251133149754299, guid: 80e33bef77c60f54a84f55de9ecb0754, type: 3}
+  _blockSprites:
+  - {fileID: 21300000, guid: 041449e68af0b1340bd6bc272b62be17, type: 3}
+  - {fileID: 21300000, guid: a4fb5197752191949875299cc790269e, type: 3}
+  - {fileID: 21300000, guid: 93e9768d5011c6747a5ffe781bc3351b, type: 3}
+  - {fileID: 21300000, guid: fc20021106db4c0469f0bbd304cb486f, type: 3}
+  - {fileID: 21300000, guid: cd707f88f57f33944aba7af9cdaf4f1c, type: 3}
+  - {fileID: 21300000, guid: ea889d5246be0c54792ee176dfd1e744, type: 3}
+  - {fileID: 21300000, guid: f46b5d3f394ed574587fd6cb2d63ae8c, type: 3}
+  - {fileID: 21300000, guid: c3a82ab1909e2904b92ad89526097fea, type: 3}
+  _blockSize: 0.5
