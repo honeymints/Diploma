@@ -12,16 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6de44dec11e22424e9858a0e597b5d76, type: 3}
   m_Name: SceneList
   m_EditorClassIdentifier: 
-  sceneNames:
-  - Main Menu
-  - Game #1 - Menu
-  - Game #1 - Level 1
-  - Game #1 - Level 2
-  - Game #1 - Level 3
-  - Game #1 - Level 4
-  - Game #1 - Level 5
-  - Game #1 - Level 6
-  - Game #1 - Level 7
-  - Game #1 - Level 8
-  - Game #1 - Level 9
-  - Game #1 - Level 10
+  sceneNames: []
