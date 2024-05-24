@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bfbb8a742410e245a04631909c0e750, type: 3}
+  m_Name: BottleColorLevelConfig 6
+  m_EditorClassIdentifier: 
+  levelName: 
+  timeDurationForLevel: 120
+  ExpectedBottles:
+  - ExpectedBottleColors:
+    - {r: 0.16470589, g: 1, b: 0, a: 0}
+    - {r: 1, g: 0.5586107, b: 0, a: 0}
+  - ExpectedBottleColors:
+    - {r: 0, g: 0.23087478, b: 1, a: 0}
+    - {r: 1, g: 0, b: 0.7117095, a: 0}
+  - ExpectedBottleColors:
+    - {r: 0, g: 1, b: 0.59180164, a: 0}
+    - {r: 1, g: 0, b: 0.19176292, a: 0}
+  - ExpectedBottleColors:
+    - {r: 0.9453938, g: 1, b: 0, a: 0}
+    - {r: 0.051370516, g: 0.6981132, b: 0.12347941, a: 0}
+  InitialBottle:
+  - InitialColorBottles:
+    - {r: 1, g: 0, b: 0.19215688, a: 0}
+    - {r: 1, g: 0.5568628, b: 0, a: 0}
+    - {r: 0.9450981, g: 1, b: 0, a: 0}
+  - InitialColorBottles: []
+  - InitialColorBottles:
+    - {r: 1, g: 0, b: 0.70980394, a: 0}
+    - {r: 0, g: 0.23137257, b: 1, a: 0}
+    - {r: 0, g: 1, b: 0.5921569, a: 0}
+  - InitialColorBottles:
+    - {r: 0.050980397, g: 0.69803923, b: 0.121568635, a: 0}
+    - {r: 0.16470589, g: 1, b: 0, a: 0}

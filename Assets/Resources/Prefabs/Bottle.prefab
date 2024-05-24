@@ -293,12 +293,9 @@ MonoBehaviour:
     m_PreInfinity: 0
     m_PostInfinity: 2
     m_RotationOrder: 4
-  bottleColors:
-  - {r: 1, g: 0.91797805, b: 0, a: 0}
-  - {r: 1, g: 0, b: 0.82976866, a: 0}
+  bottleColors: []
   bottleMask: {fileID: 342378076795926620}
-  expectedBottleColor:
-  - {r: 0.16470589, g: 1, b: 0, a: 0}
+  expectedBottleColors: []
   matchedCount: 0
 --- !u!61 &7104747744287581624
 BoxCollider2D:

@@ -1,22 +1,24 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Data/FoodMatchGameData", fileName = "WalkablePositionsData")]
-public class WalkablePositions : ScriptableObject
+namespace FoodMatcherGame
 {
-    public List<Vector2Int> positions = new List<Vector2Int>();
-
-    public void AddPosition(Vector2Int position)
+    [CreateAssetMenu(menuName = "Data/FoodMatchGameData", fileName = "WalkablePositionsData")]
+    public class WalkablePositions : ScriptableObject
     {
-        if (!positions.Contains(position))
+        public List<Vector2Int> positions = new List<Vector2Int>();
+
+        public void AddPosition(Vector2Int position)
         {
-            positions.Add(position);
+            if (!positions.Contains(position))
+            {
+                positions.Add(position);
+            }
         }
-    }
 
-    public void RemovePosition(Vector2Int position)
-    {
-        positions.Remove(position);
+        public void RemovePosition(Vector2Int position)
+        {
+            positions.Remove(position);
+        }
     }
 }

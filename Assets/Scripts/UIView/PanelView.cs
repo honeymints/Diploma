@@ -1,21 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
-public class PanelView : MonoBehaviour
+namespace UIView
 {
-    [SerializeField] private GameObject panel;
-    [SerializeField] private TMP_Text panelText;
-
-    public void ShowPanel(string text)
+    public class PanelView : MonoBehaviour
     {
-        panel.SetActive(true);
-        panelText.text = text;
-    }
+        [SerializeField] private GameObject panel;
 
-    public void HidePanel()
-    {
-        panel.SetActive(false);
+        public void ShowPanel()
+        {
+            panel.SetActive(true);
+        }
+
+        public void HidePanel()
+        {
+            panel.SetActive(false);
+        }
     }
 }
