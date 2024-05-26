@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class LoginController : MonoBehaviour
 {
+    [SerializeField] private GameObject panel;
     private UserAccountController userController;
     void Start()
     {
@@ -49,6 +50,7 @@ public class LoginController : MonoBehaviour
         userController.GetStatistics();
         userController.GetPlayFabId(result.PlayFabId);
         userController.GetUserData(result.PlayFabId);
+        panel.SetActive(true);
     }
 
     private void OnLoginWithGooglePlayGamesServicesFailure(PlayFabError error)
