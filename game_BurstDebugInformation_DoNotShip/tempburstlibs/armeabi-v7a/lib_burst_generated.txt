@@ -10,7 +10,6 @@ Library: C:\Users\aruch\Diploma\Temp\BurstOutput\tempburstlibs\armeabi-v7a\lib_b
 --target-framework=NetFramework
 --float-mode=Fast
 --assembly-defines=Assembly-CSharp;
---assembly-defines=Google.Play.Games;
 --assembly-defines=Mono.Security;
 --assembly-defines=mscorlib;
 --assembly-defines=PlayFab;
@@ -50,7 +49,6 @@ Library: C:\Users\aruch\Diploma\Temp\BurstOutput\tempburstlibs\armeabi-v7a\lib_b
 --float-precision=Standard
 --target-framework=NetFramework
 --assembly-defines=Assembly-CSharp;
---assembly-defines=Google.Play.Games;
 --assembly-defines=Mono.Security;
 --assembly-defines=mscorlib;
 --assembly-defines=PlayFab;

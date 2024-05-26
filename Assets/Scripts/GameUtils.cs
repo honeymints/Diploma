@@ -42,4 +42,26 @@ public class GameUtils
         } 
     }
 
+    public static string GameTypeDetector(GameType gameType)
+    {
+        string type="";
+        switch(gameType)
+        {
+            case GameType.BlocksGame:
+                type = "BlockGames";
+                break;
+            case GameType.CardMatch:
+                type = "CardMatching";
+                break;
+            case GameType.OneLineGame:
+                type = "OneLine";
+                break;
+            case GameType.WaterColorSort:
+                type = "WaterColorSort";
+                break;
+        }
+
+        return type;
+    }
+
 }

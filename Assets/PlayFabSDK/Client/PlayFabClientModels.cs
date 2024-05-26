@@ -5881,7 +5881,7 @@ namespace PlayFab.ClientModels
         /// <summary>
         /// statistic value for the player
         /// </summary>
-        public int Value;
+        public float Value;
         /// <summary>
         /// for updates to an existing statistic value for a player, the version of the statistic when it was loaded. Null when
         /// setting the statistic value for the first time.

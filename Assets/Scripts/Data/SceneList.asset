@@ -13,4 +13,13 @@ MonoBehaviour:
   m_Name: SceneList
   m_EditorClassIdentifier: 
   sceneNames:
-  - Main Menu
+  - Game #1 - Level 1
+  - Game #1 - Level 2
+  - Game #1 - Level 3
+  - Game #1 - Level 4
+  - Game #1 - Level 5
+  - Game #1 - Level 6
+  - Game #1 - Level 7
+  - Game #1 - Level 8
+  - Game #1 - Level 9
+  - Game #1 - Level 10
