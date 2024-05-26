@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7014884653090307286
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6721723447216937462}
+  - component: {fileID: 266652057387705806}
+  m_Layer: 0
+  m_Name: BlockPiece
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6721723447216937462
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7014884653090307286}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &266652057387705806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7014884653090307286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ece1f1c59ac0ee34a917d63d132e8f8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _blockPrefab: {fileID: 1578251133149754299, guid: 80e33bef77c60f54a84f55de9ecb0754, type: 3}
+  _blockSprites:
+  - {fileID: 21300000, guid: 041449e68af0b1340bd6bc272b62be17, type: 3}
+  - {fileID: 21300000, guid: a4fb5197752191949875299cc790269e, type: 3}
+  - {fileID: 21300000, guid: 93e9768d5011c6747a5ffe781bc3351b, type: 3}
+  - {fileID: 21300000, guid: fc20021106db4c0469f0bbd304cb486f, type: 3}
+  - {fileID: 21300000, guid: cd707f88f57f33944aba7af9cdaf4f1c, type: 3}
+  - {fileID: 21300000, guid: ea889d5246be0c54792ee176dfd1e744, type: 3}
+  - {fileID: 21300000, guid: f46b5d3f394ed574587fd6cb2d63ae8c, type: 3}
+  - {fileID: 21300000, guid: c3a82ab1909e2904b92ad89526097fea, type: 3}
+  _blockSize: 0.5
