@@ -1,6 +1,8 @@
+using ColorMatchGame;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GameManagerPG2 : MonoBehaviour
 {
@@ -150,6 +152,12 @@ public class GameManagerPG2 : MonoBehaviour
     private IEnumerator GameFinished()
     {
         yield return new WaitForSeconds(2f);
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+
+        //Win<GameManagerPG2>(0);
+        //UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    }
+    private void Win()
+    {
+
     }
 }
