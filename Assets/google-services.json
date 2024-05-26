@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "232433165754",
+    "project_id": "puzzlemindgames-b80c8",
+    "storage_bucket": "puzzlemindgames-b80c8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:232433165754:android:c6bc70ad2159bf90312983",
+        "android_client_info": {
+          "package_name": "com.greenteamints.puzzlemindgames"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "232433165754-4rensq904kivv4r5vs5o23605js9u4sf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtySM8y3FBpEB-wFAFtS6Kcz95LBiEx68"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "232433165754-4rensq904kivv4r5vs5o23605js9u4sf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

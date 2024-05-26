@@ -45,7 +45,7 @@ public class LevelListCreator : MonoBehaviour
                 string sceneNameWithExtension = scenePath.Substring(lastSlashIndex + 1);
                 string sceneName = sceneNameWithExtension.Substring(0, sceneNameWithExtension.Length - 6); // Remove ".unity" extension
 
-                if (scenePath.StartsWith(currentFolder) && sceneName != SceneManager.GetActiveScene().name) // Check if the scene is in the same folder as the current scene and exclude the current scene
+                if (scenePath.StartsWith(currentFolder) && sceneName != SceneManager.GetActiveScene().name) 
                 {
                     sceneNames.Add(sceneName);
                 }

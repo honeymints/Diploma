@@ -14,37 +14,37 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Game Menu.unity
     guid: 83f360a7c7fa8604394c1a8f039957f9
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Game #1/Game #1 - Menu.unity
     guid: 2e884e4e0c4547c47a5d3cb5f07bd955
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Game #1/Game #1 - Level 1.unity
     guid: 30c464642b737814a9810601a587499f
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Game #1/Game #1 - Level 2.unity
     guid: 49ab867bdcc55cb4691bfc4ee057af52
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Game #1/Game #1 - Level 3.unity
     guid: e9fb86d3c30e11d4b86ce2d056cefd7a
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Game #1/Game #1 - Level 4.unity
     guid: b419205cab4d1804897363c9ce37a7f6
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Game #1/Game #1 - Level 5.unity
     guid: bf75855859180eb4db485416decd116c
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Game #1/Game #1 - Level 6.unity
     guid: 4233ba83788ed7c4bafca7a371b6512f
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Game #1/Game #1 - Level 7.unity
     guid: 2e85028a6a781744186ce445afceb92e
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Game #1/Game #1 - Level 8.unity
     guid: 8c329fe95da49924a89bcc2577041473
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Game #1/Game #1 - Level 9.unity
     guid: 8cb4fed9154c051448874b4121314111
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Game #1/Game #1 - Level 10.unity
     guid: 2ef8d432a52963841990f8bb6ce968d9
   - enabled: 0

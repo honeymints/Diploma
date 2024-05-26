@@ -40,8 +40,8 @@ public class GameMenuGenerator : MonoBehaviour
                 continue;
             }
             GameObject button = Instantiate(buttonPrefab, gridLayout.transform);
-            button.GetComponentInChildren<TMPro.TMP_Text>().text = (count + 1).ToString();
-            button.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => LoadScene(sceneName));
+            button.GetComponentInChildren<TMP_Text>().text = (count + 1).ToString();
+            button.GetComponent<Button>().onClick.AddListener(() => LoadScene(sceneName));
             count++;
         }
     }
