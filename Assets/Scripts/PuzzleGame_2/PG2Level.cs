@@ -6,6 +6,7 @@ using UnityEngine;
 public class PG2Level : ScriptableObject
 {
     public int Row, Col;
+    public Gradient edgeColor;
     public List<Vector4> Points;
     public List<Vector2Int> Edges;
 }

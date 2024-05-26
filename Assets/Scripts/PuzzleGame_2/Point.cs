@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class Point : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [HideInInspector] public int Id;
+    [HideInInspector] public Vector3 Position;
 
-    // Update is called once per frame
-    void Update()
+    public void Init(Vector3 pos, int id)
     {
-        
+        Id = id;
+        Position = pos;
+        transform.position = Position;
     }
 }
