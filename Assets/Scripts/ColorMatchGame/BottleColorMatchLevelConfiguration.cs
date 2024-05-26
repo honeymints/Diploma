@@ -7,7 +7,7 @@ namespace ColorMatchGame
     [CreateAssetMenu(fileName = "BottleColorLevelConfig", menuName = "LevelConfig/FirstGameLevelConfig")]
     public class BottleColorMatchLevelConfiguration : ScriptableObject
     {
-        public string levelName;
+        public int levelNumber;
         public float timeDurationForLevel;
         public List<ExpectedBottle> ExpectedBottles;
         public List<InitialBottle> InitialBottle;

@@ -1,30 +1,30 @@
+using System.Collections;
+using System.Collections.Generic;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using PlayFab;
 using PlayFab.ClientModels;
-using TMPro;
 using UnityEngine;
 
-public class UserAccountManager : MonoBehaviour
+public class LoginController : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI detailsText; 
+    private UserAccountController userController;
     void Start()
     {
+        userController = FindObjectOfType<UserAccountController>();
         PlayGamesPlatform.Activate();
         PlayGamesPlatform.Instance.Authenticate(ProcessAuthentication);
     }
-
+    
     internal void ProcessAuthentication(SignInStatus status)
     {
         if (status == SignInStatus.Success)
         {
             Debug.Log("Authentication successful.");
-            detailsText.text = "Authentication successful.";
             PlayGamesPlatform.Instance.RequestServerSideAccess(false, ProcessServerAuthCode);
         }
         else
         {
-            detailsText.text = "Authentication failed.";
             Debug.LogError("Authentication failed: " + status); 
         }
     }
@@ -46,12 +46,13 @@ public class UserAccountManager : MonoBehaviour
     private void OnLoginWithGooglePlayGamesServicesSuccess(LoginResult result)
     {
         Debug.Log("PF Login Success LoginWithGooglePlayGamesServices");
-        detailsText.text = "success";
+        userController.GetStatistics();
+        userController.GetPlayFabId(result.PlayFabId);
+        userController.GetUserData(result.PlayFabId);
     }
 
     private void OnLoginWithGooglePlayGamesServicesFailure(PlayFabError error)
     {
         Debug.Log("PF Login Failure LoginWithGooglePlayGamesServices: " + error.GenerateErrorReport());
-        detailsText.text = "fail";
     }
 }

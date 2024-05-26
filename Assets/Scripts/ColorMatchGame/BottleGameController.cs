@@ -17,9 +17,14 @@ namespace ColorMatchGame
         private bool coroutineRunning = false;
         void Start()
         {
+            base.Start();
             currentTime = 0f;
             currentPoints = 100f;
             Time.timeScale = 1f;
+            gameType = GameType.WaterColorSort;
+            currentLevelNumber = PlayerData.LevelNumber;
+            HighScore = PlayerData.HighScore;
+            
             Bottles.AddRange(FindObjectsOfType<BottleController>());
         }
 
@@ -32,9 +37,6 @@ namespace ColorMatchGame
         public void IncrementCountOfMatchedBottles()
         {
             var allMatched = Bottles.All(x => x.matchedCount == x.expectedBottleColors.Count);
-            Debug.Log($"All matched:{allMatched}");
-            /*Debug.Log("matched count " + Bottles[0].matchedCount);*/
-            Debug.Log("expected bottle count" + Bottles[0].expectedBottleColors.Count);
             CheckIfAllBottlesAreMatched(allMatched);
         }
         private void ClickOnBottles()
@@ -86,22 +88,11 @@ namespace ColorMatchGame
 
         private void CheckIfAllBottlesAreMatched(bool allMatched)
         {
-            /*var allMatched = true;
-            foreach (var bottle in Bottles)
-            {
-                /*if (!bottle.CheckIfInitialMatchedWithExpectedBottle())
-                {
-                    Debug.Log("not matched");
-                    allMatched = false;
-                    break;
-                }#1#
-            }*/
-
             if (allMatched)
             {
                 Debug.Log("matched");
                 isAllFull = true;
-                Invoke("HandleWin", 3f); // Call HandleWin method after 3 seconds
+                Invoke("HandleWin", 3f); 
             }
         
         }
