@@ -41,27 +41,14 @@ public class GameUtils
             currentPoints += .4f*currentPoints;
         } 
     }
-
-    public static string GameTypeDetector(GameType gameType)
+    
+    public static bool IsEqualTo(Color me, Color other)
     {
-        string type="";
-        switch(gameType)
-        {
-            case GameType.BlocksGame:
-                type = "BlockGames";
-                break;
-            case GameType.CardMatch:
-                type = "CardMatching";
-                break;
-            case GameType.OneLineGame:
-                type = "OneLine";
-                break;
-            case GameType.WaterColorSort:
-                type = "WaterColorSort";
-                break;
-        }
-
-        return type;
+        Debug.Log($"here is reds: {(int)me.r*1000}, {(int)other.r * 1000}");
+        Debug.Log($"here is greens: {(int)(me.g * 1000)}, {(int)(me.g * 1000)}");
+        Debug.Log($"here is blues: {(int)(me.b * 1000)}, {(int)(other.b * 1000)}");
+        return Mathf.Abs(me.r-other.r) <0.1f && Mathf.Abs(me.b-other.b) <0.1f &&
+               Mathf.Abs(me.g-other.g) <0.1f;
     }
 
 }

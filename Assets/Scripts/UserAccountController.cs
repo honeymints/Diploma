@@ -11,7 +11,11 @@ using UnityEngine.SceneManagement;
 public class UserAccountController : MonoBehaviour
 {
     public static UserAccountController UserController { get; private set; }
-    public string playfabId;
+    public TextMeshProUGUI textResult;
+    public GameType GameType;
+    public Dictionary<GameType, Dictionary<int, float>> HighScores=new Dictionary<GameType, Dictionary<int, float>>();
+    public float moneyAmount;
+    private string playfabId;
 
     void Awake()
     {
@@ -31,69 +35,11 @@ public class UserAccountController : MonoBehaviour
 
     #region PlayerStats
     
-    public GameType GameType;
-    public Dictionary<string, Dictionary<int, float>> HighScores=new Dictionary<string, Dictionary<int, float>>();
-    public float moneyAmount;
-    
-    public void SetStatistics()
-    {
-        PlayFabClientAPI.UpdatePlayerStatistics( new UpdatePlayerStatisticsRequest {
-                // request.Statistics is a list, so multiple StatisticUpdate objects can be defined if required.
-                Statistics = new List<StatisticUpdate> {
-                    new StatisticUpdate() {StatisticName = "MoneyAmount", Value = 100},
-                }
-            },
-            result => { Debug.Log("User statistics updated"); },
-            error => { Debug.LogError(error.GenerateErrorReport()); });
-    }
-
-    public void GetStatistics()
-    {
-        PlayFabClientAPI.GetPlayerStatistics(
-            new GetPlayerStatisticsRequest(),
-            OnGetStatistics,
-            error => Debug.LogError(error.GenerateErrorReport())
-        );
-    }
-
-    void OnGetStatistics(GetPlayerStatisticsResult result)
-    {
-        Debug.Log("Received the following Statistics:");
-        foreach (var eachStat in result.Statistics)
-        {
-            Debug.Log("Statistic (" + eachStat.StatisticName + "): " + eachStat.Value);
-            switch (eachStat.StatisticName)
-            {
-                case "MoneyAmount":
-                    moneyAmount = eachStat.Value;
-                    break;
-                
-            }
-        }
-        
-    }
     
     #endregion
 
     #region Player Data
-    public void SaveUserData()
-    {
-        string json = JsonUtility.ToJson(new SerializableDictionary<string, Dictionary<int, float>>(HighScores));
-
-        var request = new UpdateUserDataRequest
-        {
-            Data = new Dictionary<string, string> { { "PlayerScores", json } }
-        };
-
-        PlayFabClientAPI.UpdateUserData(request, result => {
-            Debug.Log("Successfully updated user data");
-        }, error => {
-            Debug.Log("Got error setting user data:");
-            Debug.Log(error.GenerateErrorReport());
-        });
-    }
-    
-    public void UpdateScore(string gameType, int level, float points)
+    public void UpdateScore(GameType gameType, int level, float points)
     {
         if (!HighScores.ContainsKey(gameType))
         {
@@ -101,40 +47,100 @@ public class UserAccountController : MonoBehaviour
         }
 
         HighScores[gameType][level] = points;
+        SaveUserData(gameType);
+    }
 
-        // After updating the score, save the player data
-        SaveUserData();
+    public void SaveUserData(GameType gameType)
+    {
+        if (HighScores.ContainsKey(gameType))
+        {
+            string json = JsonUtility.ToJson(new SerializableDictionary<int, float>(HighScores[gameType]));
+
+            var request = new UpdateUserDataRequest
+            {
+                Data = new Dictionary<string, string> { { gameType.ToString(), json } }
+            };
+
+            PlayFabClientAPI.UpdateUserData(request, SetUserDataSuccess, OnErrorLeaderboard);
+        }
+    }
+
+    private void SetUserDataSuccess(UpdateUserDataResult result)
+    {
+        Debug.Log(result.DataVersion);
     }
     
     public void GetUserData(string playerId)
     {
         PlayFabClientAPI.GetUserData(new GetUserDataRequest
+        {
+            PlayFabId = playerId,
+            Keys = null,
+        }, GetUserDataSuccess, OnErrorLeaderboard);
+    }
+
+    private void GetUserDataSuccess(GetUserDataResult result)
+    {
+        if (result.Data != null)
+        {
+            foreach (var item in result.Data)
             {
-                PlayFabId = playerId // Include the player's ID
-            }, 
-            result => {
-                Debug.Log("Got user data:");
-                if (result.Data != null && result.Data.ContainsKey("PlayerScores"))
+                GameType gameType;
+                if (Enum.TryParse(item.Key, out gameType))
                 {
-                    string json = result.Data["PlayerScores"].Value;
-                    HighScores = JsonUtility.FromJson<SerializableDictionary<string, Dictionary<int, float>>>(json).ToDictionary();
+                    HighScores[gameType] = JsonUtility.FromJson<SerializableDictionary<int, float>>(item.Value.Value).ToDictionary();
                 }
-            }, 
-            error => {
-                Debug.Log("Got error retrieving user data:");
-                Debug.Log(error.GenerateErrorReport());
-            });
+            }
+            if (HighScores.ContainsKey(GameType.WaterColorSort) && HighScores[GameType.WaterColorSort].ContainsKey(1))
+            {
+                textResult.text = $"WaterColorSort Level 1 Score: {HighScores[GameType.WaterColorSort][1]}";
+            }
+            else
+            {
+                textResult.text = HighScores.Values.ToString();
+            }
+        }
+        else
+        {
+            Debug.LogError("No user data available");
+            textResult.text = "Didn't get the data";
+        }
+    }
+
+    /*private void GetUserDataSuccess(GetUserDataResult result)
+    {
+        if (result.Data != null && result.Data.ContainsKey("PlayerScores"))
+        {
+            string json = result.Data["PlayerScores"].Value;
+            HighScores = JsonUtility.FromJson<SerializableDictionary<string, Dictionary<int, float>>>(json).ToDictionary();
+            textResult.text = HighScores["WaterColorSort"].Values.ToString();
+        }
+        else
+        {
+            Debug.LogError("Key was not set");
+            textResult.text = "didn't get the data";
+        }
+    }*/
+
+    private void OnErrorLeaderboard(PlayFabError error)
+    {
+        Debug.Log(error.GenerateErrorReport());
     }
 
     public void GetPlayFabId(string playfabId)
     {
         this.playfabId = playfabId;
     }
-    public Dictionary<string, Dictionary<int,float>> GetUserData()
+    public float GetUserHighScore(GameType gameType, int level)
     {
-        GetUserData(playfabId);
-        return HighScores;
+        if (HighScores[gameType].ContainsKey(level))
+        {
+            return HighScores[gameType][level];
+        }
+
+        return -1;
     }
+    
     #endregion
 }
 

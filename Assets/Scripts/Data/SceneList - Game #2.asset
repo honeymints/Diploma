@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6de44dec11e22424e9858a0e597b5d76, type: 3}
-  m_Name: SceneList
+  m_Name: SceneList - Game #2
   m_EditorClassIdentifier: 
   sceneNames:
-  - Game #1 - Level 1
-  - Game #1 - Level 2
-  - Game #1 - Level 3
-  - Game #1 - Level 4
-  - Game #1 - Level 5
-  - Game #1 - Level 6
-  - Game #1 - Level 7
-  - Game #1 - Level 8
-  - Game #1 - Level 9
-  - Game #1 - Level 10
+  - Game #2 - Level 1
+  - Game #2 - Level 2
+  - Game #2 - Level 3
+  - Game #2 - Level 4
+  - Game #2 - Level 5
+  - Game #2 - Level 6
+  - Game #2 - Level 7
+  - Game #2 - Level 8
+  - Game #2 - Level 9
+  - Game #2 - Level 10

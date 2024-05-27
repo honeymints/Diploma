@@ -4,11 +4,13 @@ using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using PlayFab;
 using PlayFab.ClientModels;
+using TMPro;
 using UnityEngine;
 
 public class LoginController : MonoBehaviour
 {
     [SerializeField] private GameObject panel;
+    [SerializeField] private TextMeshProUGUI textLoading;
     private UserAccountController userController;
     void Start()
     {
@@ -47,14 +49,15 @@ public class LoginController : MonoBehaviour
     private void OnLoginWithGooglePlayGamesServicesSuccess(LoginResult result)
     {
         Debug.Log("PF Login Success LoginWithGooglePlayGamesServices");
-        userController.GetStatistics();
+        textLoading.gameObject.SetActive(false);
+        panel.SetActive(true);
         userController.GetPlayFabId(result.PlayFabId);
         userController.GetUserData(result.PlayFabId);
-        panel.SetActive(true);
     }
 
     private void OnLoginWithGooglePlayGamesServicesFailure(PlayFabError error)
     {
         Debug.Log("PF Login Failure LoginWithGooglePlayGamesServices: " + error.GenerateErrorReport());
+        textLoading.text = "Authentication failed";
     }
 }

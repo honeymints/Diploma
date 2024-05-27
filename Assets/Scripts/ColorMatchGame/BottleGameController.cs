@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace ColorMatchGame
@@ -17,13 +18,13 @@ namespace ColorMatchGame
         private bool coroutineRunning = false;
         void Start()
         {
-            base.Start();
             currentTime = 0f;
             currentPoints = 100f;
             Time.timeScale = 1f;
+            
+            currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
             gameType = GameType.WaterColorSort;
-            currentLevelNumber = PlayerData.LevelNumber;
-            HighScore = PlayerData.HighScore;
+            HighScore = GetHighScore<BottleGameController>();
             
             Bottles.AddRange(FindObjectsOfType<BottleController>());
         }
@@ -31,7 +32,6 @@ namespace ColorMatchGame
         void Update()
         {
             ClickOnBottles();
-            
         }
 
         public void IncrementCountOfMatchedBottles()
@@ -103,7 +103,8 @@ namespace ColorMatchGame
             {
                 _hasPlayerWon = true;
                 GameUtils.CountPoints(totalTime, currentTime, ref currentPoints);
-                Win<BottleGameController>(currentPoints);
+                OnGameCompleted<BottleGameController>();
+                Win<BottleGameController>(currentPoints, HighScore);
             }
         }
         

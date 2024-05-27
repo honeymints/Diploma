@@ -863,6 +863,10 @@ PrefabInstance:
       propertyPath: losePanel
       value: 
       objectReference: {fileID: 3109135860219174276}
+    - target: {fileID: 1438213784614175771, guid: f76107720049c6845a860e150d6de615, type: 3}
+      propertyPath: PlayerData
+      value: 
+      objectReference: {fileID: 11400000, guid: 582efb37276ed9f4195b140fedbc2cdc, type: 2}
     - target: {fileID: 4258877962058952330, guid: f76107720049c6845a860e150d6de615, type: 3}
       propertyPath: m_Name
       value: GameController

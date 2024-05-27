@@ -573,7 +573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridLayout: {fileID: 375050940}
-  scenePaths: []
+  sceneList: {fileID: 11400000, guid: fdb87b5185df6c748b25c014087dadfb, type: 2}
 --- !u!4 &576538324
 Transform:
   m_ObjectHideFlags: 0

@@ -5,6 +5,7 @@ using ColorMatchGame;
 using UIView;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -35,6 +36,11 @@ namespace CardMatchingGame
         {
             Time.timeScale = 1f;
             currentPoints = 100f;
+            
+            gameType = GameType.CardMatch;
+            currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
+            HighScore = GetHighScore<CardGameController>();
+            
             AddListener();
             AddSprites();
             Randomize(usedCards);
@@ -188,7 +194,7 @@ namespace CardMatchingGame
             {
                 CompareGuesses();
                 GameUtils.CountPoints(totalTime, currentTime, ref currentPoints);
-                Win<CardGameController>(currentPoints);
+                Win<CardGameController>(currentPoints, HighScore);
             }
         }
 

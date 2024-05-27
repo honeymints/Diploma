@@ -67,8 +67,9 @@ namespace ColorMatchGame
                 Debug.Log("addedColorToBottle: " + addedColorsToBottle.Count);
                 for (int i = 0; i < expectedBottleColors.Count; i++)
                 {
-                    if ((int)addedColorsToBottle[i].r * 1000 == (int)expectedBottleColors[i].r * 1000)
+                    if (/*(int)addedColorsToBottle[i].r * 1000 == (int)expectedBottleColors[i].r * 1000*/GameUtils.IsEqualTo(addedColorsToBottle[i], expectedBottleColors[i]))
                         matchedCount++;
+                    
                     else
                         matchedCount--;
                 }

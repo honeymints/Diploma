@@ -9,11 +9,9 @@ namespace ColorMatchGame
 {
     public class BaseController : MonoBehaviour
     {
-        [SerializeField] protected PlayerData PlayerData;
         [SerializeField] private GameObject losePanel;
         [SerializeField] private GameObject winPanel;
-        private UserAccountController UserController;
-        
+
         protected float currentTime = 0;
         protected float totalTime = 0f;
         protected float currentPoints = 0;
@@ -22,18 +20,18 @@ namespace ColorMatchGame
 
         protected GameType gameType;
         protected float HighScore;
-        protected int currentLevelNumber;
+        protected int currentLevelIndex;
         
         protected void Start()
         {
-            UserController = FindObjectOfType<UserAccountController>();
+            
         }
 
-        protected void Win<T>(float collectedPoints) where T : BaseController
+        protected void Win<T>(float collectedPoints, float highScore) where T : BaseController
         {
             Time.timeScale = 0f;
             winPanel.SetActive(true);
-            GameObject.FindWithTag("EditableText").GetComponent<TMP_Text>().text = collectedPoints.ToString();
+            winPanel.GetComponent<Win>().ShowPanel(highScore, collectedPoints);
             Disable<T>();
         }
         
@@ -69,15 +67,31 @@ namespace ColorMatchGame
         
         protected void OnGameCompleted<T>() where T : BaseController
         {
-            string type=GameUtils.GameTypeDetector(GetComponent<T>().gameType);
-            int level = GetComponent<T>().currentLevelNumber;
-            float highScore = 100f;
-            UserController.UpdateScore(type, level, highScore);
+            SetHighScore<T>();
+            int level = GetComponent<T>().currentLevelIndex;
+            GameType gameType = GetComponent<T>().gameType;
+            float highScore = GetComponent<T>().HighScore;
+            UserAccountController.UserController.UpdateScore(gameType, level, highScore);
         }
 
+        protected float GetHighScore<T>() where T : BaseController
+        {
+            return UserAccountController.UserController.GetUserHighScore(GetComponent<T>().gameType,
+                GetComponent<T>().currentLevelIndex);
+        }
+        
+        private void SetHighScore<T>() where T : BaseController
+        {
+            if (GetComponent<T>().currentPoints >= GetComponent<T>().HighScore)
+            {
+                GetComponent<T>().HighScore = GetComponent<T>().currentPoints;
+            }
+        }
         public void SetFullTime<T>(float totalTime) where T : BaseController
         {
             this.totalTime = totalTime;
         }
+        
+        
     }
 }
