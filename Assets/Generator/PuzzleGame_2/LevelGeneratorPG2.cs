@@ -110,7 +110,7 @@ public class LevelGeneratorPG2 : MonoBehaviour
         }
         else if (Input.GetMouseButtonUp(0))
         {
-      
+
             startPoint = null;
             endPoint = null;
         }

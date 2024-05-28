@@ -36,7 +36,7 @@ public class LevelCreator : MonoBehaviour
     private void SpawnBlock()
     {
         isNewLevel = !(_rows == _level.Rows && _columns == _level.Columns);
-        if (isNewLevel) 
+        if (isNewLevel)
         {
             _level.Rows = _rows;
             _level.Columns = _columns;
@@ -44,9 +44,9 @@ public class LevelCreator : MonoBehaviour
             _level.BlockColumns = _spawnColumns;
             _level.Blocks = new List<BlockPiece>();
             _level.Data = new List<int>();
-            for(int i=0; i<_rows; i++) 
+            for (int i = 0; i < _rows; i++)
             {
-                for(int j=0; j<_columns; j++) 
+                for (int j = 0; j < _columns; j++)
                 {
                     _level.Data.Add(-1);
                 }
@@ -54,12 +54,12 @@ public class LevelCreator : MonoBehaviour
         }
 
         gridCells = new Cell[_rows, _columns];
-        for(int i=0; i<_rows;i++)
+        for (int i = 0; i < _rows; i++)
         {
-            for (int j=0; j<_columns;j++)
+            for (int j = 0; j < _columns; j++)
             {
                 gridCells[i, j] = Instantiate(_cellPrefab);
-                gridCells[i, j].Init(_level.Data[i*_columns + j]);
+                gridCells[i, j].Init(_level.Data[i * _columns + j]);
                 gridCells[i, j].transform.position = new Vector3(j + 0.5f, i + 0.5f, 0);
             }
         }
@@ -73,9 +73,9 @@ public class LevelCreator : MonoBehaviour
         startPos.x = 0.25f + (_level.Columns - _level.BlockColumns * _blockSpawnSize) * 0.5f;
         startPos.y = -_level.BlockRows * +_blockSpawnSize - 1f + 0.25f;
 
-        for(int i=0; i<_spawnRows; i++)
+        for (int i = 0; i < _spawnRows; i++)
         {
-            for(int j = 0; j<_spawnColumns; j++)
+            for (int j = 0; j < _spawnColumns; j++)
             {
                 Vector3 spawnPos = startPos + new Vector3(j, i, 0) * _blockSpawnSize;
                 Transform spawnCell = Instantiate(_spawnBGPrefab);
@@ -94,21 +94,21 @@ public class LevelCreator : MonoBehaviour
         //set StartCenters
         startCenters = new Dictionary<int, Vector2Int>();
         centerObjects = new List<Transform>();
-        spawnedBlocks = new Dictionary<int, SpawnedBlock> ();
+        spawnedBlocks = new Dictionary<int, SpawnedBlock>();
 
         List<Sprite> sprites = _blockSprites;
 
-        for(int i = 1; i < sprites.Count; i++)
+        for (int i = 1; i < sprites.Count; i++)
         {
             spawnedBlocks[i - 1] = null;
             startCenters[i - 1] = Vector2Int.zero;
             centerObjects.Add(Instantiate(_centerPrefab));
-            centerObjects[i - 1].GetChild(0).GetComponent<SpriteRenderer>().sprite = 
+            centerObjects[i - 1].GetChild(0).GetComponent<SpriteRenderer>().sprite =
                 sprites[i];
-            centerObjects[i-1].gameObject.SetActive(false);
+            centerObjects[i - 1].gameObject.SetActive(false);
         }
 
-        for(int i = 1;i < _level.Blocks.Count; i++)
+        for (int i = 1; i < _level.Blocks.Count; i++)
         {
             int tempId = _level.Blocks[i].Id;
             Vector2Int pos = _level.Blocks[i].CenterPos;
@@ -119,7 +119,7 @@ public class LevelCreator : MonoBehaviour
             spawnedBlocks[tempId].Init(_level.Blocks[i], startPos);
         }
     }
-    public void Update() 
+    public void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -129,13 +129,13 @@ public class LevelCreator : MonoBehaviour
                 Mathf.FloorToInt(mousePos.y),
                 Mathf.FloorToInt(mousePos.x)
                 );
-            if(!IsValidPosition(mousePosGrid)) return;
+            if (!IsValidPosition(mousePosGrid)) return;
             gridCells[mousePosGrid.x, mousePosGrid.y].Init(currentCellFillValue);
             _level.Data[mousePosGrid.x * _columns + mousePosGrid.y] = currentCellFillValue;
             EditorUtility.SetDirty(_level);
         }
 
-        if(Input.GetMouseButtonDown(1)) 
+        if (Input.GetMouseButtonDown(1))
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2Int mousePosGrid = new Vector2Int(
@@ -154,11 +154,11 @@ public class LevelCreator : MonoBehaviour
             EditorUtility.SetDirty(_level);
         }
 
-        if(Input.GetKeyDown(KeyCode.Space)) 
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             if (currentCellFillValue == -1) return;
             BlockPiece spawnedPiece = GetBlockPiece();
-            for(int i = 0; i< _level.Blocks.Count; i++) 
+            for (int i = 0; i < _level.Blocks.Count; i++)
             {
                 if (_level.Blocks[i].Id == spawnedPiece.Id)
                 {
@@ -177,7 +177,7 @@ public class LevelCreator : MonoBehaviour
             EditorUtility.SetDirty(_level);
         }
 
-        if(Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A))
         {
             MoveBlock(Vector2Int.down);
         }
@@ -197,14 +197,14 @@ public class LevelCreator : MonoBehaviour
 
     private void MoveBlock(Vector2Int offset)
     {
-        for(int i=0; i< _level.Blocks.Count; ++i) 
+        for (int i = 0; i < _level.Blocks.Count; ++i)
         {
             if (_level.Blocks[i].Id == currentCellFillValue)
             {
                 Vector2Int pos = _level.Blocks[i].StartPos;
                 pos.x += offset.x;
                 pos.y += offset.y;
-                BlockPiece piece = _level.Blocks[i];   
+                BlockPiece piece = _level.Blocks[i];
                 piece.StartPos = pos;
                 _level.Blocks[i] = piece;
                 Vector3 movePos = spawnedBlocks[currentCellFillValue].transform.position;
@@ -223,9 +223,9 @@ public class LevelCreator : MonoBehaviour
         result.CenterPos = startCenters[id];
         result.StartPos = Vector2Int.zero;
         result.BlockPositions = new List<Vector2Int>();
-        for(int i=0; i< _rows; i++)
+        for (int i = 0; i < _rows; i++)
         {
-            for(int j=0; j< _columns; j++)
+            for (int j = 0; j < _columns; j++)
             {
                 if (gridCells[i, j].CellValue == id)
                 {

@@ -16,8 +16,8 @@ MonoBehaviour:
   Col: 3
   edgeColor:
     serializedVersion: 2
-    key0: {r: 0, g: 0.97735846, b: 0.13860963, a: 1}
-    key1: {r: 1, g: 0.9302296, b: 0.062745094, a: 1}
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
     key2: {r: 0, g: 0, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}

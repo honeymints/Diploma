@@ -263,7 +263,7 @@ PlayerSettings:
   AndroidTargetDevices: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/aruch/Documents/googleplay/user.keystore
+  AndroidKeystoreName: C:/Users/serik/OneDrive/Desktop/googleplay/user.keystore
   AndroidKeyaliasName: water color match game
   AndroidEnableArmv9SecurityFeatures: 0
   AndroidBuildApkPerCpuArchitecture: 0
