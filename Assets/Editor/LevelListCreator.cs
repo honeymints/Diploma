@@ -12,12 +12,12 @@ public class LevelListCreator : MonoBehaviour
         List<string> sceneNames = GetSpecificScenesFromBuildSettings(currentScenePath);
 
         // Create or load the SceneList ScriptableObject
-        SceneList sceneList = AssetDatabase.LoadAssetAtPath<SceneList>("Assets/Scripts/Data/SceneList - Game #3.asset");
+        SceneList sceneList = AssetDatabase.LoadAssetAtPath<SceneList>("Assets/Scripts/Data/SceneList - Game #4.asset");
         if (sceneList == null)
         {
             // If SceneList.asset doesn't exist, create it
             sceneList = ScriptableObject.CreateInstance<SceneList>();
-            AssetDatabase.CreateAsset(sceneList, "Assets/Scripts/Data/SceneList - Game #3.asset");
+            AssetDatabase.CreateAsset(sceneList, "Assets/Scripts/Data/SceneList - Game #4.asset");
         }
 
         // Update the scene list
