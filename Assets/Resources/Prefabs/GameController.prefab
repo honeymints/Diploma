@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7539428543153248184}
   - component: {fileID: 1438213784614175771}
-  - component: {fileID: 5606907293433190572}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -50,16 +49,3 @@ MonoBehaviour:
   FirstBottle: {fileID: 0}
   SecondBottle: {fileID: 0}
   Bottles: []
---- !u!114 &5606907293433190572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4258877962058952330}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2ad83598a499e848a2f228cf546dc36, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  panel: {fileID: 0}

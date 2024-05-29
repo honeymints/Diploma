@@ -23,7 +23,6 @@ namespace ColorMatchGame
 
         void Start()
         {
-            
             GameController.SetFullTime<BaseController>(currentLevelConfig.timeDurationForLevel);
         }
 
@@ -58,13 +57,15 @@ namespace ColorMatchGame
                         initialBottle.gameObject.name = $"Bottle {count}";
                         initialBottle.GetComponent<BottleController>().InitializeColors(bottle.InitialColorBottles);
                         initialBottle.GetComponent<BottleController>().InitializeExpectedBottleColors(currentLevelConfig.ExpectedBottles[count].ExpectedBottleColors);
-                        initialBottle.transform.position = new Vector3(initialBottle.transform.position.x+offset,initialBottle.transform.position.y, initialBottle.transform.position.z);
+                        initialBottle.transform.position = new Vector3(currentLevelConfig.initialHorizontalPos+offset,initialBottle.transform.position.y, initialBottle.transform.position.z);
+                        
                     }
                     else
                     {
                         Debug.LogError("Initial Bottle Prefab was not found!");
                     }
-                    offset += 1f;
+
+                    offset += currentLevelConfig.bottleDistance;
                     count++;
                 }
             }
@@ -85,9 +86,9 @@ namespace ColorMatchGame
                     {
                         GameObject expectedBottle = Instantiate(Resources.Load(expectedBottlePrefabPath), expectedBottleView.transform) as GameObject;
                         expectedBottle.name = $"expected bottle {i}";
-                        expectedBottle.transform.position=new Vector3(expectedBottle.transform.position.x+offset,expectedBottle.transform.position.y, expectedBottle.transform.position.z);
+                        expectedBottle.transform.position=new Vector3(currentLevelConfig.expectedBottleHorizontalPos+offset,expectedBottle.transform.position.y, expectedBottle.transform.position.z);
                         listOfExpectedBottles.Add(expectedBottle);
-                        offset += 0.5f;
+                        offset += currentLevelConfig.expectedBottleDistance;
                     }
                     expectedBottleView.GetComponent<ExpectedBottlesView>().CreateBotlles(currentLevelConfig.ExpectedBottles);
                 }

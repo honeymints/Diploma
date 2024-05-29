@@ -24,9 +24,7 @@ namespace CardMatchingGame
         private int _firstIndex, _secondIndex;
         private int _correctGuesses, _totalGuesses;
         private int _incorrectGuesss;
-    
-        [SerializeField] private PanelView _panelView;
-    
+
         void Awake()
         {
             cardSprites = Resources.LoadAll<Sprite>("Sprites/CardGameSprites");
@@ -36,6 +34,7 @@ namespace CardMatchingGame
         {
             Time.timeScale = 1f;
             currentPoints = 100f;
+            maxScoreForGame = 150f;
             
             gameType = GameType.CardMatch;
             currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
@@ -194,7 +193,8 @@ namespace CardMatchingGame
             {
                 CompareGuesses();
                 GameUtils.CountPoints(totalTime, currentTime, ref currentPoints);
-                Win<CardGameController>(currentPoints, HighScore);
+                OnGameCompleted<CardGameController>();
+                Win<CardGameController>(currentPoints, HighScore, maxScoreForGame);
             }
         }
 

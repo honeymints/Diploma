@@ -22,13 +22,12 @@ public class GameUtils
     
     public static void CountPoints(float totalTime, float timeLeft, ref float currentPoints)
     {
-        var t = totalTime / 3;
-        Debug.Log(t);
-        if (t>timeLeft)
+
+        if (totalTime/3>timeLeft)
         {
             currentPoints += .1f*currentPoints;
         }
-        else if (timeLeft>=t && timeLeft<totalTime/2f)
+        else if (timeLeft>=totalTime/3 && timeLeft<totalTime/2f)
         {
             currentPoints += .2f*currentPoints;
         }
@@ -36,7 +35,7 @@ public class GameUtils
         {
             currentPoints += .3f*currentPoints;
         }
-        else
+        else if(timeLeft>=totalTime/1.5f && timeLeft<totalTime)
         {
             currentPoints += .4f*currentPoints;
         } 

@@ -20,8 +20,9 @@ namespace ColorMatchGame
         {
             currentTime = 0f;
             currentPoints = 100f;
+            maxScoreForGame = 140f;
             Time.timeScale = 1f;
-            
+
             currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
             gameType = GameType.WaterColorSort;
             HighScore = GetHighScore<BottleGameController>();
@@ -104,7 +105,7 @@ namespace ColorMatchGame
                 _hasPlayerWon = true;
                 GameUtils.CountPoints(totalTime, currentTime, ref currentPoints);
                 OnGameCompleted<BottleGameController>();
-                Win<BottleGameController>(currentPoints, HighScore);
+                Win<BottleGameController>(this.currentPoints, this.HighScore, this.maxScoreForGame);
             }
         }
         

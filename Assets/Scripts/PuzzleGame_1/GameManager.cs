@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using ColorMatchGame;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : BaseController
 {
     public static GameManager Instance;
 
@@ -225,6 +226,8 @@ public class GameManager : MonoBehaviour
     private IEnumerator GameWin()
     {
         yield return new WaitForSeconds(2f);
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        /*UnityEngine.SceneManagement.SceneManager.LoadScene(0);*/
+        OnGameCompleted<GameManagerPG2>();
+        Win<GameManagerPG2>(100f, 0f,0f);
     }
 }

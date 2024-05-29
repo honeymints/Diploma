@@ -16,8 +16,8 @@ namespace ColorMatchGame
         protected float totalTime = 0f;
         protected float currentPoints = 0;
         protected bool _hasPlayerWon = false;
-
-
+        
+        protected float maxScoreForGame;
         protected GameType gameType;
         protected float HighScore;
         protected int currentLevelIndex;
@@ -27,11 +27,13 @@ namespace ColorMatchGame
             
         }
 
-        protected void Win<T>(float collectedPoints, float highScore) where T : BaseController
+        protected void Win<T>(float collectedPoints, float highScore, float maxPoints) where T : BaseController
         {
             Time.timeScale = 0f;
             winPanel.SetActive(true);
             winPanel.GetComponent<Win>().ShowPanel(highScore, collectedPoints);
+            winPanel.GetComponent<Win>().CountStars(maxPoints,collectedPoints);
+            winPanel.GetComponent<Win>().EnableStars();
             Disable<T>();
         }
         
@@ -70,19 +72,25 @@ namespace ColorMatchGame
             SetHighScore<T>();
             int level = GetComponent<T>().currentLevelIndex;
             GameType gameType = GetComponent<T>().gameType;
-            float highScore = GetComponent<T>().HighScore;
-            UserAccountController.UserController.UpdateScore(gameType, level, highScore);
+            Debug.Log("high score is: " + HighScore);
+            UserAccountController.UserController.UpdateScore(gameType, level, GetComponent<T>().HighScore);
         }
 
         protected float GetHighScore<T>() where T : BaseController
         {
-            return UserAccountController.UserController.GetUserHighScore(GetComponent<T>().gameType,
-                GetComponent<T>().currentLevelIndex);
+            int level = GetComponent<T>().currentLevelIndex;
+            GameType gameType = GetComponent<T>().gameType;
+            float highScore = UserAccountController.UserController.GetUserHighScore(gameType, level);
+            if (highScore != 0)
+            {
+                GetComponent<T>().HighScore = highScore;
+            }
+            return highScore;
         }
         
         private void SetHighScore<T>() where T : BaseController
         {
-            if (GetComponent<T>().currentPoints >= GetComponent<T>().HighScore)
+            if (GetComponent<T>().currentPoints > GetComponent<T>().HighScore)
             {
                 GetComponent<T>().HighScore = GetComponent<T>().currentPoints;
             }

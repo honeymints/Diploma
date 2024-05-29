@@ -17,7 +17,7 @@ public class CardGameLevelManager : MonoBehaviour
 
         [SerializeField] private GameObject _cardPrefab;
         private const string prefabPath="Prefabs/СardButton";
-        void Start()
+        void OnEnable()
         {
             InitializeLevel();
             GameController.SetFullTime<BaseController>(currentLevelConfig.timeDurationForLevel);
@@ -59,6 +59,7 @@ public class CardGameLevelManager : MonoBehaviour
                 GameController.GetComponent<CardGameController>().CreateCards(cards);
 
                 _panel.GetComponent<GridLayoutGroup>().constraintCount = currentLevelConfig.sizeOfColumns;
+                _panel.GetComponent<GridLayoutGroup>().cellSize = new Vector2(currentLevelConfig.cellSize, currentLevelConfig.cellSize);
 
             }
             catch (Exception e)

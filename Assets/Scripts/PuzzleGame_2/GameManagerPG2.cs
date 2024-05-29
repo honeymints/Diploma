@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class GameManagerPG2 : MonoBehaviour
+public class GameManagerPG2 : BaseController
 {
     [SerializeField] private PG2Level _level;
     [SerializeField] private Edge _edgePrefab;
@@ -152,12 +152,8 @@ public class GameManagerPG2 : MonoBehaviour
     private IEnumerator GameFinished()
     {
         yield return new WaitForSeconds(2f);
-
-        //Win<GameManagerPG2>(0);
-        //UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-    }
-    private void Win()
-    {
-
+        
+        OnGameCompleted<GameManagerPG2>();
+        Win<GameManagerPG2>(100f, 0f,0f);
     }
 }
