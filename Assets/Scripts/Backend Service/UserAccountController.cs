@@ -11,7 +11,6 @@ using UnityEngine.SceneManagement;
 public class UserAccountController : MonoBehaviour
 {
     public static UserAccountController UserController { get; private set; }
-    /*public TextMeshProUGUI textResult;*/
     public Dictionary<GameType, Dictionary<int, float>> HighScores=new Dictionary<GameType, Dictionary<int, float>>();
     private string PlayfabId;
 
@@ -30,11 +29,6 @@ public class UserAccountController : MonoBehaviour
         }
         DontDestroyOnLoad(this.gameObject);
     }
-
-    #region PlayerStats
-    
-    
-    #endregion
 
     #region Player Data
     public void UpdateScore(GameType gameType, int level, float points)
@@ -91,19 +85,10 @@ public class UserAccountController : MonoBehaviour
                     HighScores[gameType] = JsonUtility.FromJson<SerializableDictionary<int, float>>(item.Value.Value).ToDictionary();
                 }
             }
-            /*if (HighScores.ContainsKey(GameType.WaterColorSort) && HighScores[GameType.WaterColorSort].ContainsKey(1))
-            {
-                textResult.text = $"WaterColorSort Level 1 Score: {HighScores[GameType.WaterColorSort][1]}";
-            }
-            else
-            {
-                textResult.text = HighScores.Values.ToString();
-            }*/
         }
         else
         {
             Debug.LogError("No user data available");
-            /*textResult.text = "Didn't get the data";*/
         }
     }
     
@@ -128,6 +113,21 @@ public class UserAccountController : MonoBehaviour
         }
         
         return 0;
+    }
+    
+    public List<float> GetScoresForGameType(GameType gameType)
+    {
+        List<float> scores = new List<float>();
+
+        if (HighScores.ContainsKey(gameType))
+        {
+            foreach (var levelScore in HighScores[gameType])
+            {
+                scores.Add(levelScore.Value);
+            }
+        }
+
+        return scores;
     }
     
     #endregion

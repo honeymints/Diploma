@@ -2,11 +2,13 @@ using ColorMatchGame;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 
-public class GameManagerPG2 : BaseController
+public class PuzzleGame2Controller : BaseController
 {
-    [SerializeField] private PG2Level _level;
+    [SerializeField] private PuzzleGame2LevelConfiguration levelConfiguration;
     [SerializeField] private Edge _edgePrefab;
     [SerializeField] private Point _pointPrefab;
     [SerializeField] private LineRenderer _highlight;
@@ -27,31 +29,41 @@ public class GameManagerPG2 : BaseController
         SpawnLevel();
     }
 
+    void Start()
+    {
+        Time.timeScale = 1f;
+        HighScore = 0;
+        currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
+        gameType = GameType.OneLineGame;
+        currentPoints = 0;
+        maxScoreForGame = 100f;
+    }
+
     private void SpawnLevel()
     {
         Vector3 camPos = Camera.main.transform.position;
-        camPos.x = _level.Col * 0.5f;
-        camPos.y = _level.Row * 0.5f;
+        camPos.x = levelConfiguration.Col * 0.5f;
+        camPos.y = levelConfiguration.Row * 0.5f;
         Camera.main.transform.position = camPos;
-        Camera.main.orthographicSize = Mathf.Max(_level.Col, _level.Row) + 2f;
+        Camera.main.orthographicSize = Mathf.Max(levelConfiguration.Col, levelConfiguration.Row) + 2f;
 
-        for (int i = 0; i < _level.Points.Count; i++)
+        for (int i = 0; i < levelConfiguration.Points.Count; i++)
         {
-            Vector4 posData = _level.Points[i];
+            Vector4 posData = levelConfiguration.Points[i];
             Vector3 spawnPos = new Vector3(posData.x, posData.y, posData.z);
             int id = (int)posData.w;
             points[id] = Instantiate(_pointPrefab);
             points[id].Init(spawnPos, id);
         }
 
-        for (int i = 0; i < _level.Edges.Count; i++)
+        for (int i = 0; i < levelConfiguration.Edges.Count; i++)
         {
-            Vector2Int normal = _level.Edges[i];
+            Vector2Int normal = levelConfiguration.Edges[i];
             Vector2Int reversed = new Vector2Int(normal.y, normal.x);
             Edge spawnEdge = Instantiate(_edgePrefab);
             edges[normal] = spawnEdge;
             edges[reversed] = spawnEdge;
-            spawnEdge.Init(points[normal.x].Position, points[normal.y].Position, _level.edgeColor);
+            spawnEdge.Init(points[normal.x].Position, points[normal.y].Position, levelConfiguration.edgeColor);
         }
     }
 
@@ -153,7 +165,8 @@ public class GameManagerPG2 : BaseController
     {
         yield return new WaitForSeconds(2f);
         
-        OnGameCompleted<GameManagerPG2>();
-        Win<GameManagerPG2>(100f, 0f,0f);
+        OnGameCompleted<PuzzleGame2Controller>();
+        Win<PuzzleGame2Controller>(100f, 0f,0f);
+        
     }
 }

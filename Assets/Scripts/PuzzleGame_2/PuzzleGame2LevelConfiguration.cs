@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PG2Level", menuName ="PG2Level")]
-public class PG2Level : ScriptableObject
+public class PuzzleGame2LevelConfiguration : ScriptableObject
 {
     public int Row, Col;
     public Gradient edgeColor;

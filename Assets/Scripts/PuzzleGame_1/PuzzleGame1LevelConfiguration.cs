@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Level", menuName = "Level")]
-public class Level : ScriptableObject
+public class PuzzleGame1LevelConfiguration : ScriptableObject
 {
     public int Rows;
     public int Columns;

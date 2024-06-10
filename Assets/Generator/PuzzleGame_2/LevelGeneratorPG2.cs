@@ -5,11 +5,12 @@ using System.Data;
 using System.Net.NetworkInformation;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class LevelGeneratorPG2 : MonoBehaviour
 {
     [SerializeField] private int _row, _col;
-    [SerializeField] private PG2Level _level;
+    [FormerlySerializedAs("_level")] [SerializeField] private PuzzleGame2LevelConfiguration levelConfiguration;
     [SerializeField] private Edge _edgePrefab;
     [SerializeField] private Point _pointPrefab;
 
@@ -33,15 +34,15 @@ public class LevelGeneratorPG2 : MonoBehaviour
 
     private void CreateLevel()
     {
-        if (_level.Row == _row && _level.Col == _col)
+        if (levelConfiguration.Row == _row && levelConfiguration.Col == _col)
         {
             return;
         }
 
-        _level.Row = _row;
-        _level.Col = _col;
-        _level.Points = new List<Vector4>();
-        _level.Edges = new List<Vector2Int>();
+        levelConfiguration.Row = _row;
+        levelConfiguration.Col = _col;
+        levelConfiguration.Points = new List<Vector4>();
+        levelConfiguration.Edges = new List<Vector2Int>();
         spawnId = 0;
     }
 
@@ -49,14 +50,14 @@ public class LevelGeneratorPG2 : MonoBehaviour
     private void SpawnLevel()
     {
         Vector3 camPos = Camera.main.transform.position;
-        camPos.x = _level.Col * 0.5f;
-        camPos.y = _level.Row * 0.5f;
+        camPos.x = levelConfiguration.Col * 0.5f;
+        camPos.y = levelConfiguration.Row * 0.5f;
         Camera.main.transform.position = camPos;
-        Camera.main.orthographicSize = Mathf.Max(_level.Col, _level.Row) + 2f;
+        Camera.main.orthographicSize = Mathf.Max(levelConfiguration.Col, levelConfiguration.Row) + 2f;
 
-        for (int i = 0; i < _level.Points.Count; i++)
+        for (int i = 0; i < levelConfiguration.Points.Count; i++)
         {
-            Vector4 posData = _level.Points[i];
+            Vector4 posData = levelConfiguration.Points[i];
             Vector3 spawnPos = new Vector3(posData.x, posData.y, posData.z);
             int id = (int)posData.w;
             points[id] = Instantiate(_pointPrefab);
@@ -64,14 +65,14 @@ public class LevelGeneratorPG2 : MonoBehaviour
             spawnId = id + 1;
         }
 
-        for (int i = 0; i < _level.Edges.Count; i++)
+        for (int i = 0; i < levelConfiguration.Edges.Count; i++)
         {
-            Vector2Int normal = _level.Edges[i];
+            Vector2Int normal = levelConfiguration.Edges[i];
             Vector2Int reversed = new Vector2Int(normal.y, normal.x);
             Edge spawnEdge = Instantiate(_edgePrefab);
             edges[normal] = spawnEdge;
             edges[reversed] = spawnEdge;
-            spawnEdge.Init(points[normal.x].Position, points[normal.y].Position, _level.edgeColor);
+            spawnEdge.Init(points[normal.x].Position, points[normal.y].Position, levelConfiguration.edgeColor);
         }
     }
 
@@ -127,10 +128,10 @@ public class LevelGeneratorPG2 : MonoBehaviour
             int id = spawnId++;
             Vector3 spawnPos = new Vector3(mousePos.x, mousePos.y, 0);
             Vector4 point = new Vector4(mousePos.x, mousePos.y, 0, id);
-            _level.Points.Add(point);
+            levelConfiguration.Points.Add(point);
             points[id] = Instantiate(_pointPrefab);
             points[id].Init(spawnPos, id);
-            EditorUtility.SetDirty(_level);
+            EditorUtility.SetDirty(levelConfiguration);
         }
         if (Input.GetKeyDown(KeyCode.A))
         {
@@ -158,9 +159,9 @@ public class LevelGeneratorPG2 : MonoBehaviour
             Edge spawnEdge = Instantiate(_edgePrefab);
             edges[normal] = spawnEdge;
             edges[reversed] = spawnEdge;
-            spawnEdge.Init(points[normal.x].Position, points[normal.y].Position, _level.edgeColor);
-            _level.Edges.Add(normal);
-            EditorUtility.SetDirty(_level);
+            spawnEdge.Init(points[normal.x].Position, points[normal.y].Position, levelConfiguration.edgeColor);
+            levelConfiguration.Edges.Add(normal);
+            EditorUtility.SetDirty(levelConfiguration);
         }
 
 

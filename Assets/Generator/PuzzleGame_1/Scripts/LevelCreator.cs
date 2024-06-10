@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class LevelCreator : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class LevelCreator : MonoBehaviour
     [SerializeField] private int _spawnRows;
     [SerializeField] private int _spawnColumns;
     [SerializeField] private Transform _spawnBGPrefab;
-    [SerializeField] private Level _level;
+    [FormerlySerializedAs("_level")] [SerializeField] private PuzzleGame1LevelConfiguration puzzleGame1LevelConfiguration;
     [SerializeField] private Cell _cellPrefab;
     [SerializeField] private Transform _centerPrefab;
     [SerializeField] private float _blockSpawnSize = 0.5f;
@@ -36,20 +37,20 @@ public class LevelCreator : MonoBehaviour
 
     private void SpawnBlock()
     {
-        isNewLevel = !(_rows == _level.Rows && _columns == _level.Columns);
+        isNewLevel = !(_rows == puzzleGame1LevelConfiguration.Rows && _columns == puzzleGame1LevelConfiguration.Columns);
         if (isNewLevel) 
         {
-            _level.Rows = _rows;
-            _level.Columns = _columns;
-            _level.BlockRows = _spawnRows;
-            _level.BlockColumns = _spawnColumns;
-            _level.Blocks = new List<BlockPiece>();
-            _level.Data = new List<int>();
+            puzzleGame1LevelConfiguration.Rows = _rows;
+            puzzleGame1LevelConfiguration.Columns = _columns;
+            puzzleGame1LevelConfiguration.BlockRows = _spawnRows;
+            puzzleGame1LevelConfiguration.BlockColumns = _spawnColumns;
+            puzzleGame1LevelConfiguration.Blocks = new List<BlockPiece>();
+            puzzleGame1LevelConfiguration.Data = new List<int>();
             for(int i=0; i<_rows; i++) 
             {
                 for(int j=0; j<_columns; j++) 
                 {
-                    _level.Data.Add(-1);
+                    puzzleGame1LevelConfiguration.Data.Add(-1);
                 }
             }
         }
@@ -60,7 +61,7 @@ public class LevelCreator : MonoBehaviour
             for (int j=0; j<_columns;j++)
             {
                 gridCells[i, j] = Instantiate(_cellPrefab);
-                gridCells[i, j].Init(_level.Data[i*_columns + j]);
+                gridCells[i, j].Init(puzzleGame1LevelConfiguration.Data[i*_columns + j]);
                 gridCells[i, j].transform.position = new Vector3(j + 0.5f, i + 0.5f, 0);
             }
         }
@@ -71,8 +72,8 @@ public class LevelCreator : MonoBehaviour
     private void SpawnGrid()
     {
         startPos = Vector2.zero;
-        startPos.x = 0.25f + (_level.Columns - _level.BlockColumns * _blockSpawnSize) * 0.5f;
-        startPos.y = -_level.BlockRows * +_blockSpawnSize - 1f + 0.25f;
+        startPos.x = 0.25f + (puzzleGame1LevelConfiguration.Columns - puzzleGame1LevelConfiguration.BlockColumns * _blockSpawnSize) * 0.5f;
+        startPos.y = -puzzleGame1LevelConfiguration.BlockRows * +_blockSpawnSize - 1f + 0.25f;
 
         for(int i=0; i<_spawnRows; i++)
         {
@@ -84,12 +85,12 @@ public class LevelCreator : MonoBehaviour
             }
         }
 
-        float maxColumns = Mathf.Max(_level.Columns, _level.BlockColumns * _blockSpawnSize);
-        float maxRows = _level.Rows + 2f + _level.BlockRows * _blockSpawnSize;
+        float maxColumns = Mathf.Max(puzzleGame1LevelConfiguration.Columns, puzzleGame1LevelConfiguration.BlockColumns * _blockSpawnSize);
+        float maxRows = puzzleGame1LevelConfiguration.Rows + 2f + puzzleGame1LevelConfiguration.BlockRows * _blockSpawnSize;
         Camera.main.orthographicSize = Mathf.Max(maxColumns, maxRows) * 0.65f;
         Vector3 camPos = Camera.main.transform.position;
-        camPos.x = _level.Columns * 0.5f;
-        camPos.y = (_level.Rows + 0.5f + startPos.y) * 0.5f;
+        camPos.x = puzzleGame1LevelConfiguration.Columns * 0.5f;
+        camPos.y = (puzzleGame1LevelConfiguration.Rows + 0.5f + startPos.y) * 0.5f;
         Camera.main.transform.position = camPos;
 
         //set StartCenters
@@ -109,15 +110,15 @@ public class LevelCreator : MonoBehaviour
             centerObjects[i-1].gameObject.SetActive(false);
         }
 
-        for(int i = 1;i < _level.Blocks.Count; i++)
+        for(int i = 1;i < puzzleGame1LevelConfiguration.Blocks.Count; i++)
         {
-            int tempId = _level.Blocks[i].Id;
-            Vector2Int pos = _level.Blocks[i].CenterPos;
+            int tempId = puzzleGame1LevelConfiguration.Blocks[i].Id;
+            Vector2Int pos = puzzleGame1LevelConfiguration.Blocks[i].CenterPos;
             centerObjects[tempId].gameObject.SetActive(true);
             centerObjects[tempId].transform.position =
                 new Vector3(pos.y + 0.5f, pos.x + 0.5f, 0f);
             spawnedBlocks[tempId] = Instantiate(_blockPrefab);
-            spawnedBlocks[tempId].Init(_level.Blocks[i], startPos);
+            spawnedBlocks[tempId].Init(puzzleGame1LevelConfiguration.Blocks[i], startPos);
         }
     }
     public void Update() 
@@ -132,8 +133,8 @@ public class LevelCreator : MonoBehaviour
                 );
             if(!IsValidPosition(mousePosGrid)) return;
             gridCells[mousePosGrid.x, mousePosGrid.y].Init(currentCellFillValue);
-            _level.Data[mousePosGrid.x * _columns + mousePosGrid.y] = currentCellFillValue;
-            EditorUtility.SetDirty(_level);
+            puzzleGame1LevelConfiguration.Data[mousePosGrid.x * _columns + mousePosGrid.y] = currentCellFillValue;
+            EditorUtility.SetDirty(puzzleGame1LevelConfiguration);
         }
 
         if(Input.GetMouseButtonDown(1)) 
@@ -152,30 +153,30 @@ public class LevelCreator : MonoBehaviour
                 0
                 );
             startCenters[currentCellFillValue] = mousePosGrid;
-            EditorUtility.SetDirty(_level);
+            EditorUtility.SetDirty(puzzleGame1LevelConfiguration);
         }
 
         if(Input.GetKeyDown(KeyCode.Space)) 
         {
             if (currentCellFillValue == -1) return;
             BlockPiece spawnedPiece = GetBlockPiece();
-            for(int i = 0; i< _level.Blocks.Count; i++) 
+            for(int i = 0; i< puzzleGame1LevelConfiguration.Blocks.Count; i++) 
             {
-                if (_level.Blocks[i].Id == spawnedPiece.Id)
+                if (puzzleGame1LevelConfiguration.Blocks[i].Id == spawnedPiece.Id)
                 {
-                    _level.Blocks.RemoveAt(i);
+                    puzzleGame1LevelConfiguration.Blocks.RemoveAt(i);
                     i--;
                 }
             }
 
-            _level.Blocks.Add(spawnedPiece);
+            puzzleGame1LevelConfiguration.Blocks.Add(spawnedPiece);
             if (spawnedBlocks[currentCellFillValue] != null)
             {
                 Destroy(spawnedBlocks[currentCellFillValue].gameObject);
             }
             spawnedBlocks[currentCellFillValue] = Instantiate(_blockPrefab);
             spawnedBlocks[currentCellFillValue].Init(spawnedPiece, startPos);
-            EditorUtility.SetDirty(_level);
+            EditorUtility.SetDirty(puzzleGame1LevelConfiguration);
         }
 
         if(Input.GetKeyDown(KeyCode.A))
@@ -198,23 +199,23 @@ public class LevelCreator : MonoBehaviour
 
     private void MoveBlock(Vector2Int offset)
     {
-        for(int i=0; i< _level.Blocks.Count; ++i) 
+        for(int i=0; i< puzzleGame1LevelConfiguration.Blocks.Count; ++i) 
         {
-            if (_level.Blocks[i].Id == currentCellFillValue)
+            if (puzzleGame1LevelConfiguration.Blocks[i].Id == currentCellFillValue)
             {
-                Vector2Int pos = _level.Blocks[i].StartPos;
+                Vector2Int pos = puzzleGame1LevelConfiguration.Blocks[i].StartPos;
                 pos.x += offset.x;
                 pos.y += offset.y;
-                BlockPiece piece = _level.Blocks[i];   
+                BlockPiece piece = puzzleGame1LevelConfiguration.Blocks[i];   
                 piece.StartPos = pos;
-                _level.Blocks[i] = piece;
+                puzzleGame1LevelConfiguration.Blocks[i] = piece;
                 Vector3 movePos = spawnedBlocks[currentCellFillValue].transform.position;
                 movePos.x += offset.y * _blockSpawnSize;
                 movePos.y += offset.x * _blockSpawnSize;
                 spawnedBlocks[currentCellFillValue].transform.position = movePos;
             }
         }
-        EditorUtility.SetDirty(_level);
+        EditorUtility.SetDirty(puzzleGame1LevelConfiguration);
     }
     private BlockPiece GetBlockPiece()
     {

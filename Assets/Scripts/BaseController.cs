@@ -5,8 +5,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace ColorMatchGame
-{
     public class BaseController : MonoBehaviour
     {
         [SerializeField] private GameObject losePanel;
@@ -21,11 +19,6 @@ namespace ColorMatchGame
         protected GameType gameType;
         protected float HighScore;
         protected int currentLevelIndex;
-        
-        protected void Start()
-        {
-            
-        }
 
         protected void Win<T>(float collectedPoints, float highScore, float maxPoints) where T : BaseController
         {
@@ -72,8 +65,8 @@ namespace ColorMatchGame
             SetHighScore<T>();
             int level = GetComponent<T>().currentLevelIndex;
             GameType gameType = GetComponent<T>().gameType;
-            Debug.Log("high score is: " + HighScore);
-            UserAccountController.UserController.UpdateScore(gameType, level, GetComponent<T>().HighScore);
+            /*Debug.Log("high score is: " + HighScore);
+            UserAccountController.UserController.UpdateScore(gameType, level, GetComponent<T>().HighScore);*/
         }
 
         protected float GetHighScore<T>() where T : BaseController
@@ -102,4 +95,4 @@ namespace ColorMatchGame
         
         
     }
-}
+

@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using ColorMatchGame;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
-public class GameManager : BaseController
+public class PuzzleGame1Controller : BaseController
 {
-    public static GameManager Instance;
+    public static PuzzleGame1Controller Instance;
 
-    [SerializeField] private Level _level;
+    [SerializeField] private PuzzleGame1LevelConfiguration puzzleGame1LevelConfiguration;
     [SerializeField] private BGCell _bgCellPrefab;
     [SerializeField] private Block _blockPrefab;
     [SerializeField] private float _blockSpawnSize;
@@ -15,6 +17,7 @@ public class GameManager : BaseController
     [SerializeField] private float _blockPutSize;
 
     private BGCell[,] bgCellGrid;
+    
     private bool hasGameFinished;
     private Block currentBlock;
     private Vector2 currentPos, previousPos;
@@ -29,16 +32,26 @@ public class GameManager : BaseController
         SpawnBlocks();
     }
 
+    private void Start()
+    {
+        Time.timeScale = 1f;
+        HighScore = 0;
+        currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
+        gameType = GameType.BlocksGame;
+        currentPoints = 0;
+        maxScoreForGame = 100f;
+    }
+
     private void SpawnGrid()
     {
-        bgCellGrid = new BGCell[_level.Rows, _level.Columns];
-        for (int i = 0; i < _level.Rows; i++)
+        bgCellGrid = new BGCell[puzzleGame1LevelConfiguration.Rows, puzzleGame1LevelConfiguration.Columns];
+        for (int i = 0; i < puzzleGame1LevelConfiguration.Rows; i++)
         {
-            for (int j = 0; j < _level.Columns; j++)
+            for (int j = 0; j < puzzleGame1LevelConfiguration.Columns; j++)
             {
                 BGCell bgcell = Instantiate(_bgCellPrefab);
                 bgcell.transform.position = new Vector3(j + 0.5f, i + 0.5f, 0f);
-                bgcell.Init(_level.Data[i * _level.Columns + j]);
+                bgcell.Init(puzzleGame1LevelConfiguration.Data[i * puzzleGame1LevelConfiguration.Columns + j]);
                 bgCellGrid[i, j] = bgcell;
             }
         }
@@ -47,25 +60,25 @@ public class GameManager : BaseController
     private void SpawnBlocks()
     {
         Vector3 startPos = Vector3.zero;
-        startPos.x = 0.25f + (_level.Columns - _level.BlockColumns * _blockSpawnSize) * 0.5f;
-        startPos.y = -_level.BlockRows * _blockSpawnSize + 0.25f - 1f;
+        startPos.x = 0.25f + (puzzleGame1LevelConfiguration.Columns - puzzleGame1LevelConfiguration.BlockColumns * _blockSpawnSize) * 0.5f;
+        startPos.y = -puzzleGame1LevelConfiguration.BlockRows * _blockSpawnSize + 0.25f - 1f;
 
-        for (int i = 0; i < _level.Blocks.Count; i++)
+        for (int i = 0; i < puzzleGame1LevelConfiguration.Blocks.Count; i++)
         {
             Block block = Instantiate(_blockPrefab);
-            Vector2Int blockPos = _level.Blocks[i].StartPos;
+            Vector2Int blockPos = puzzleGame1LevelConfiguration.Blocks[i].StartPos;
             Vector3 blockSpawnPos = startPos
                 + new Vector3(blockPos.y, blockPos.x, 0) * _blockSpawnSize;
             block.transform.position = blockSpawnPos;
-            block.Init(_level.Blocks[i].BlockPositions, blockSpawnPos, _level.Blocks[i].Id);
+            block.Init(puzzleGame1LevelConfiguration.Blocks[i].BlockPositions, blockSpawnPos, puzzleGame1LevelConfiguration.Blocks[i].Id);
         }
 
-        float maxColumns = Mathf.Max(_level.Columns, _level.BlockColumns * _blockSpawnSize);
-        float maxRows = _level.Rows + 2f + _level.BlockRows * _blockSpawnSize;
+        float maxColumns = Mathf.Max(puzzleGame1LevelConfiguration.Columns, puzzleGame1LevelConfiguration.BlockColumns * _blockSpawnSize);
+        float maxRows = puzzleGame1LevelConfiguration.Rows + 2f + puzzleGame1LevelConfiguration.BlockRows * _blockSpawnSize;
         Camera.main.orthographicSize = Mathf.Max(maxColumns, maxRows) * 0.65f;
         Vector3 camPos = Camera.main.transform.position;
-        camPos.x = _level.Columns * 0.5f;
-        camPos.y = (_level.Rows + 0.5f + startPos.y) * 0.5f;
+        camPos.x = puzzleGame1LevelConfiguration.Columns * 0.5f;
+        camPos.y = (puzzleGame1LevelConfiguration.Rows + 0.5f + startPos.y) * 0.5f;
         Camera.main.transform.position = camPos;
     }
 
@@ -140,9 +153,9 @@ public class GameManager : BaseController
 
     private void ResetHighLight()
     {
-        for (int i = 0; i < _level.Rows; i++)
+        for (int i = 0; i < puzzleGame1LevelConfiguration.Rows; i++)
         {
-            for (int j = 0; j < _level.Columns; j++)
+            for (int j = 0; j < puzzleGame1LevelConfiguration.Columns; j++)
             {
                 if (!bgCellGrid[i, j].IsBlocked)
                 {
@@ -154,9 +167,9 @@ public class GameManager : BaseController
 
     private void UpdateFilled()
     {
-        for (int i = 0; i < _level.Rows; i++)
+        for (int i = 0; i < puzzleGame1LevelConfiguration.Rows; i++)
         {
-            for (int j = 0; j < _level.Columns; j++)
+            for (int j = 0; j < puzzleGame1LevelConfiguration.Columns; j++)
             {
                 if (!bgCellGrid[i, j].IsBlocked)
                 {
@@ -203,14 +216,14 @@ public class GameManager : BaseController
 
     private bool IsValidPos(Vector2Int pos)
     {
-        return pos.x >= 0 && pos.y >= 0 && pos.x < _level.Rows && pos.y < _level.Columns;
+        return pos.x >= 0 && pos.y >= 0 && pos.x < puzzleGame1LevelConfiguration.Rows && pos.y < puzzleGame1LevelConfiguration.Columns;
     }
 
     private void CheckWin()
     {
-        for (int i = 0; i < _level.Rows; i++)
+        for (int i = 0; i < puzzleGame1LevelConfiguration.Rows; i++)
         {
-            for (int j = 0; j < _level.Columns; j++)
+            for (int j = 0; j < puzzleGame1LevelConfiguration.Columns; j++)
             {
                 if (!bgCellGrid[i, j].IsFilled)
                 {
@@ -227,7 +240,8 @@ public class GameManager : BaseController
     {
         yield return new WaitForSeconds(2f);
         /*UnityEngine.SceneManagement.SceneManager.LoadScene(0);*/
-        OnGameCompleted<GameManagerPG2>();
-        Win<GameManagerPG2>(100f, 0f,0f);
+        OnGameCompleted<PuzzleGame1Controller>();
+        Win<PuzzleGame1Controller>(currentPoints, HighScore, maxScoreForGame);
+        
     }
 }
