@@ -152,12 +152,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc609748c1ad9794a8f18a9fbea18226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rows: 4
-  _columns: 4
-  _spawnRows: 5
-  _spawnColumns: 8
+  _rows: 5
+  _columns: 5
+  _spawnRows: 6
+  _spawnColumns: 9
   _spawnBGPrefab: {fileID: 5559837972735439967, guid: 2e67f36c214b0e543a48541c008f4657, type: 3}
-  _level: {fileID: 11400000, guid: 7d92a9786752f58419d94f8c754d931f, type: 2}
+  _level: {fileID: 11400000, guid: db4d1767a968dca4ab51935d3868098e, type: 2}
   _cellPrefab: {fileID: 880395294678809936, guid: 28e9a1b28883159418bd4b19f9bd0f01, type: 3}
   _centerPrefab: {fileID: 3598098459806435885, guid: 8be1174db4d68e24097cb077b7cd4587, type: 3}
   _blockSpawnSize: 0.5
