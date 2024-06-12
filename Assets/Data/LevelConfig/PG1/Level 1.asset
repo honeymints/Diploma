@@ -38,3 +38,4 @@ MonoBehaviour:
     StartPos: {x: 0, y: 0}
     CenterPos: {x: 0, y: 1}
     BlockPositions: []
+  timeDurationForLevel: 40

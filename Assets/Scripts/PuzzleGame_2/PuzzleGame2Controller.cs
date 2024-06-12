@@ -168,7 +168,7 @@ public class PuzzleGame2Controller : BaseController
 
     private IEnumerator GameFinished()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         
         OnGameCompleted<PuzzleGame2Controller>();
         Win<PuzzleGame2Controller>(100f, 0f,0f);

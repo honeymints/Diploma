@@ -36,7 +36,7 @@ public class PuzzleGame1Controller : BaseController
         
         TMP_Text timeText = timePrefab.GetComponentInChildren<TMP_Text>();
         Image timeImg = timePrefab.GetComponent<Image>();
-        StartCountDown<PuzzleGame2Controller>(timeImg, puzzleGame1LevelConfiguration.timeDurationForLevel, timeText);
+        StartCountDown<PuzzleGame1Controller>(timeImg, puzzleGame1LevelConfiguration.timeDurationForLevel, timeText);
         
     }
 
@@ -246,7 +246,7 @@ public class PuzzleGame1Controller : BaseController
 
     private IEnumerator GameWin()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         OnGameCompleted<PuzzleGame1Controller>();
         Win<PuzzleGame1Controller>(currentPoints, HighScore, maxScoreForGame);
         

@@ -16,6 +16,10 @@ namespace ColorMatchGame
         private bool isAllFull=false;
         private int countOfMatchedBottles;
         private bool coroutineRunning = false;
+        
+        private float bottleUp = 0.3f; // select bottle
+        private float bottleDown = -0.3f; // deselect bottle
+
         void Start()
         {
             currentTime = 0f;
@@ -56,11 +60,25 @@ namespace ColorMatchGame
                         if (FirstBottle == null)
                         {
                             FirstBottle = hit.collider.GetComponent<BottleController>();
+                            
+                            if(FirstBottle.numberOfColors != 0)
+                            {
+                                FirstBottle.transform.position = new Vector3(FirstBottle.transform.position.x,
+                                    FirstBottle.transform.position.y + bottleUp,
+                                    FirstBottle.transform.position.z);
+                            }
                         }
                         else
                         {
                             if (FirstBottle == hit.collider.GetComponent<BottleController>())
                             {
+                                if(FirstBottle.numberOfColors != 0)
+                                {
+                                    FirstBottle.transform.position = new Vector3(FirstBottle.transform.position.x,
+                                        FirstBottle.transform.position.y + bottleDown,
+                                        FirstBottle.transform.position.z);
+                                }
+                                
                                 FirstBottle = null;
                             }
                             else
@@ -83,8 +101,18 @@ namespace ColorMatchGame
                         }
                     }
                 }
+                else {      
+                    if(FirstBottle.numberOfColors != 0)
+                    {
+                        FirstBottle.transform.position = new Vector3(FirstBottle.transform.position.x,
+                            FirstBottle.transform.position.y + bottleDown,
+                            FirstBottle.transform.position.z);
+                    }
+                    FirstBottle = null;
+                    SecondBottle = null;
+                }
             }
-            
+
         }
 
         private void CheckIfAllBottlesAreMatched(bool allMatched)

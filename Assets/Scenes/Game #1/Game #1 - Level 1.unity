@@ -596,6 +596,14 @@ PrefabInstance:
     - target: {fileID: 27599896877658069, guid: 3523afc420dc2824a99bc51e35425290, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 7894098427740837206}
+    - target: {fileID: 27599896877658069, guid: 3523afc420dc2824a99bc51e35425290, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Resume
+      objectReference: {fileID: 0}
+    - target: {fileID: 27599896877658069, guid: 3523afc420dc2824a99bc51e35425290, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Pause, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3090985412874293136, guid: 3523afc420dc2824a99bc51e35425290, type: 3}
       propertyPath: m_Pivot.x
@@ -1099,7 +1107,7 @@ PrefabInstance:
       objectReference: {fileID: 2131703045}
     - target: {fileID: 7034089634302538425, guid: 7806205dd257e8a40b6f5120a6abae2b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8245754946145002815, guid: 7806205dd257e8a40b6f5120a6abae2b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

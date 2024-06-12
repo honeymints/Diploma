@@ -39,3 +39,4 @@ MonoBehaviour:
     CenterPos: {x: 1, y: 1}
     BlockPositions:
     - {x: 0, y: 0}
+  timeDurationForLevel: 40

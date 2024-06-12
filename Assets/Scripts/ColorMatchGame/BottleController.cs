@@ -13,7 +13,8 @@ namespace ColorMatchGame
         [SerializeField] private float[] rotationAngles;
 
         [Range(0,4)]
-        [SerializeField] private int numberOfColors;
+        [SerializeField]
+        internal int numberOfColors;
         private int rotationIndex = 0;
 
         public Color TopColor;
