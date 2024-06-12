@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float _blockHighLightSize;
     [SerializeField] private float _blockPutSize;
 
+    AudioManager audioManager;
+
     private BGCell[,] bgCellGrid;
     private bool hasGameFinished;
     private Block currentBlock;
@@ -21,6 +23,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
         Instance = this;
         hasGameFinished = false;
         gridBlocks = new List<Block>();
@@ -224,6 +227,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator GameWin()
     {
+        audioManager.PlaySFX(audioManager.win);
         yield return new WaitForSeconds(2f);
         UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }

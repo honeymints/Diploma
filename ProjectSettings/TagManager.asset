@@ -6,6 +6,7 @@ TagManager:
   tags:
   - EditableText
   - Layout
+  - Audio
   layers:
   - Default
   - TransparentFX
