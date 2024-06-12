@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace ColorMatchGame
 {
-    public class BottleGameController : BaseController
+    public class ColorMatchGameController : BaseController
     {
         [SerializeField] private BottleController FirstBottle;
         [SerializeField] private BottleController SecondBottle;
@@ -25,7 +25,7 @@ namespace ColorMatchGame
 
             currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
             gameType = GameType.WaterColorSort;
-            HighScore = GetHighScore<BottleGameController>();
+            HighScore = GetHighScore<ColorMatchGameController>();
             
             Bottles.AddRange(FindObjectsOfType<BottleController>());
         }
@@ -104,8 +104,8 @@ namespace ColorMatchGame
             {
                 _hasPlayerWon = true;
                 GameUtils.CountPoints(totalTime, currentTime, ref currentPoints);
-                OnGameCompleted<BottleGameController>();
-                Win<BottleGameController>(this.currentPoints, this.HighScore, this.maxScoreForGame);
+                OnGameCompleted<ColorMatchGameController>();
+                Win<ColorMatchGameController>(this.currentPoints, this.HighScore, this.maxScoreForGame);
             }
         }
         

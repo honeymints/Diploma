@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using ColorMatchGame;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class PuzzleGame1Controller : BaseController
 {
@@ -15,7 +17,8 @@ public class PuzzleGame1Controller : BaseController
     [SerializeField] private float _blockSpawnSize;
     [SerializeField] private float _blockHighLightSize;
     [SerializeField] private float _blockPutSize;
-
+    [SerializeField] private GameObject timePrefab;
+    
     private BGCell[,] bgCellGrid;
     
     private bool hasGameFinished;
@@ -30,6 +33,11 @@ public class PuzzleGame1Controller : BaseController
         gridBlocks = new List<Block>();
         SpawnGrid();
         SpawnBlocks();
+        
+        TMP_Text timeText = timePrefab.GetComponentInChildren<TMP_Text>();
+        Image timeImg = timePrefab.GetComponent<Image>();
+        StartCountDown<PuzzleGame2Controller>(timeImg, puzzleGame1LevelConfiguration.timeDurationForLevel, timeText);
+        
     }
 
     private void Start()
@@ -239,7 +247,6 @@ public class PuzzleGame1Controller : BaseController
     private IEnumerator GameWin()
     {
         yield return new WaitForSeconds(2f);
-        /*UnityEngine.SceneManagement.SceneManager.LoadScene(0);*/
         OnGameCompleted<PuzzleGame1Controller>();
         Win<PuzzleGame1Controller>(currentPoints, HighScore, maxScoreForGame);
         

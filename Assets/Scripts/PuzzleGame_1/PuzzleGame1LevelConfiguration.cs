@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Level", menuName = "Level")]
+[CreateAssetMenu(fileName = "PG1Level", menuName = "LevelConfig/BlocksameLevelConfig")]
 public class PuzzleGame1LevelConfiguration : ScriptableObject
 {
     public int Rows;
@@ -11,6 +11,7 @@ public class PuzzleGame1LevelConfiguration : ScriptableObject
     public int BlockRows;
     public int BlockColumns;
     public List<BlockPiece> Blocks;
+    public float timeDurationForLevel;
 }
 
 [Serializable]

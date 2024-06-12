@@ -1,10 +1,11 @@
 using ColorMatchGame;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class PuzzleGame2Controller : BaseController
 {
@@ -12,7 +13,8 @@ public class PuzzleGame2Controller : BaseController
     [SerializeField] private Edge _edgePrefab;
     [SerializeField] private Point _pointPrefab;
     [SerializeField] private LineRenderer _highlight;
-
+    [SerializeField] private GameObject timePrefab;
+    
     private Dictionary<int, Point> points;
     private Dictionary<Vector2Int, Edge> edges;
     private Point startPoint, endPoint;
@@ -27,6 +29,9 @@ public class PuzzleGame2Controller : BaseController
         _highlight.gameObject.SetActive(false);
         currentId = -1;
         SpawnLevel();
+        TMP_Text timeText = timePrefab.GetComponentInChildren<TMP_Text>();
+        Image timeImg = timePrefab.GetComponent<Image>();
+        StartCountDown<PuzzleGame2Controller>(timeImg, levelConfiguration.timeDurationForLevel, timeText);
     }
 
     void Start()

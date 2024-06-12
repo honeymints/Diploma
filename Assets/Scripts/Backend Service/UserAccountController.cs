@@ -35,18 +35,29 @@ public class UserAccountController : MonoBehaviour
     #region Player Data
     public void UpdateStats(GameType gameType, int level, float points, int starsCount)
     {
-        if (!HighScores.ContainsKey(gameType))
+        InitializeData();
+        
+        if (!HighScores[gameType].ContainsKey(level))
         {
-            HighScores[gameType] = new Dictionary<int, float>();
-            StarsCount[gameType] = new Dictionary<int, int>();
+            HighScores[gameType][level] = 0; 
+        }
+
+        if (!StarsCount[gameType].ContainsKey(level))
+        {
+            StarsCount[gameType][level] = 0; 
+        }
+
+        if (StarsCount[gameType][level] < starsCount)
+        {
+            StarsCount[gameType][level] = starsCount;
         }
         
-        if (!HighScores[gameType].ContainsKey(level) || HighScores[gameType][level] < points)
+        if (HighScores[gameType][level] < points)
         {
             HighScores[gameType][level] = points;
-            StarsCount[gameType][level] = starsCount;
-            SaveUserData(gameType);
         }
+        
+        SaveUserData(gameType);
     }
     
 
@@ -55,13 +66,14 @@ public class UserAccountController : MonoBehaviour
         if (HighScores.ContainsKey(gameType))
         {
             string jsonHighScore = JsonUtility.ToJson(new SerializableDictionary<int, float>(HighScores[gameType]));
-            string jsonStarsCount= JsonUtility.ToJson(new SerializableDictionary<int, int>(StarsCount[gameType]));
+            string jsonStarsCount = JsonUtility.ToJson(new SerializableDictionary<int, int>(StarsCount[gameType]));
 
             var request = new UpdateUserDataRequest
             {
-                Data = new Dictionary<string, string> { 
-                    { gameType.ToString(), jsonHighScore }, 
-                    {gameType.ToString(), jsonStarsCount} }
+                Data = new Dictionary<string, string> {
+                    { gameType.ToString() + "_HighScores", jsonHighScore },
+                    { gameType.ToString() + "_StarsCount", jsonStarsCount }
+                }
             };
 
             PlayFabClientAPI.UpdateUserData(request, SetUserDataSuccess, OnErrorLeaderboard);
@@ -89,9 +101,12 @@ public class UserAccountController : MonoBehaviour
             foreach (var item in result.Data)
             {
                 GameType gameType;
-                if (Enum.TryParse(item.Key, out gameType))
+                if (item.Key.EndsWith("_HighScores") && Enum.TryParse(item.Key.Replace("_HighScores", ""), out gameType))
                 {
                     HighScores[gameType] = JsonUtility.FromJson<SerializableDictionary<int, float>>(item.Value.Value).ToDictionary();
+                }
+                else if (item.Key.EndsWith("_StarsCount") && Enum.TryParse(item.Key.Replace("_StarsCount", ""), out gameType))
+                {
                     StarsCount[gameType] = JsonUtility.FromJson<SerializableDictionary<int, int>>(item.Value.Value).ToDictionary();
                 }
             }
@@ -99,9 +114,23 @@ public class UserAccountController : MonoBehaviour
         else
         {
             Debug.LogError("No user data available");
+            InitializeData();
         }
     }
-    
+    private void InitializeData()
+    {
+        foreach (GameType gameType in Enum.GetValues(typeof(GameType)))
+        {
+            if (!HighScores.ContainsKey(gameType))
+            {
+                HighScores[gameType] = new Dictionary<int, float>();
+            }
+            if (!StarsCount.ContainsKey(gameType))
+            {
+                StarsCount[gameType] = new Dictionary<int, int>();
+            }
+        }
+    }
     private void OnErrorLeaderboard(PlayFabError error)
     {
         Debug.Log(error.GenerateErrorReport());
@@ -109,7 +138,7 @@ public class UserAccountController : MonoBehaviour
 
     public void GetPlayFabId(string playfabId)
     {
-        this.PlayfabId = playfabId;
+        PlayfabId = playfabId;
     }
     
     public float GetUserHighScore(GameType gameType, int level)
