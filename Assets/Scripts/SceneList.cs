@@ -6,4 +6,5 @@ using UnityEngine;
 public class SceneList : ScriptableObject
 {
     public string[] sceneNames;
+    public int[] buildIndexes;
 }

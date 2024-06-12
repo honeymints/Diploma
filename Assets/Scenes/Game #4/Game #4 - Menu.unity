@@ -619,6 +619,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridLayout: {fileID: 375050940}
   sceneList: {fileID: 11400000, guid: 0d92065fc5555734bb2834e36b212dbd, type: 2}
+  highScores: []
+  GameType: 3
 --- !u!4 &576538324
 Transform:
   m_ObjectHideFlags: 0

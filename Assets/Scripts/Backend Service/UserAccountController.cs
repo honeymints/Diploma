@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using GooglePlayGames;
 using GooglePlayGames.BasicApi;
 using PlayFab;
@@ -12,6 +13,7 @@ public class UserAccountController : MonoBehaviour
 {
     public static UserAccountController UserController { get; private set; }
     public Dictionary<GameType, Dictionary<int, float>> HighScores=new Dictionary<GameType, Dictionary<int, float>>();
+    public Dictionary<GameType, Dictionary<int, int>> StarsCount=new Dictionary<GameType, Dictionary<int, int>>();
     private string PlayfabId;
 
     void Awake()
@@ -31,28 +33,35 @@ public class UserAccountController : MonoBehaviour
     }
 
     #region Player Data
-    public void UpdateScore(GameType gameType, int level, float points)
+    public void UpdateStats(GameType gameType, int level, float points, int starsCount)
     {
         if (!HighScores.ContainsKey(gameType))
         {
             HighScores[gameType] = new Dictionary<int, float>();
+            StarsCount[gameType] = new Dictionary<int, int>();
         }
+        
         if (!HighScores[gameType].ContainsKey(level) || HighScores[gameType][level] < points)
         {
             HighScores[gameType][level] = points;
+            StarsCount[gameType][level] = starsCount;
             SaveUserData(gameType);
         }
     }
+    
 
     public void SaveUserData(GameType gameType)
     {
         if (HighScores.ContainsKey(gameType))
         {
-            string json = JsonUtility.ToJson(new SerializableDictionary<int, float>(HighScores[gameType]));
+            string jsonHighScore = JsonUtility.ToJson(new SerializableDictionary<int, float>(HighScores[gameType]));
+            string jsonStarsCount= JsonUtility.ToJson(new SerializableDictionary<int, int>(StarsCount[gameType]));
 
             var request = new UpdateUserDataRequest
             {
-                Data = new Dictionary<string, string> { { gameType.ToString(), json } }
+                Data = new Dictionary<string, string> { 
+                    { gameType.ToString(), jsonHighScore }, 
+                    {gameType.ToString(), jsonStarsCount} }
             };
 
             PlayFabClientAPI.UpdateUserData(request, SetUserDataSuccess, OnErrorLeaderboard);
@@ -83,6 +92,7 @@ public class UserAccountController : MonoBehaviour
                 if (Enum.TryParse(item.Key, out gameType))
                 {
                     HighScores[gameType] = JsonUtility.FromJson<SerializableDictionary<int, float>>(item.Value.Value).ToDictionary();
+                    StarsCount[gameType] = JsonUtility.FromJson<SerializableDictionary<int, int>>(item.Value.Value).ToDictionary();
                 }
             }
         }
@@ -101,9 +111,9 @@ public class UserAccountController : MonoBehaviour
     {
         this.PlayfabId = playfabId;
     }
+    
     public float GetUserHighScore(GameType gameType, int level)
     {
-
         if (HighScores.ContainsKey(gameType))
         {
             if (HighScores[gameType].ContainsKey(level))
@@ -115,16 +125,40 @@ public class UserAccountController : MonoBehaviour
         return 0;
     }
     
-    public List<float> GetScoresForGameType(GameType gameType)
+    public int GetUserStarsCount(GameType gameType, int level)
+    {
+        if (StarsCount.ContainsKey(gameType))
+        {
+            if (StarsCount[gameType].ContainsKey(level))
+            {
+                return StarsCount[gameType][level];
+            }
+        }
+        
+        return 0;
+    }
+    
+    public List<float> GetDataForGameType(GameType gameType, int[] sceneIndexes)
     {
         List<float> scores = new List<float>();
 
         if (HighScores.ContainsKey(gameType))
         {
-            foreach (var levelScore in HighScores[gameType])
+            for(int i = 0; i < sceneIndexes.Length; i++)
             {
-                scores.Add(levelScore.Value);
+                if (HighScores[gameType].ContainsKey(sceneIndexes[i]))
+                {
+                    scores.Add(HighScores[gameType][sceneIndexes[i]]);
+                }
+                else
+                {
+                    scores.Add(0);
+                }
             }
+        }
+        else if(!HighScores.ContainsKey(gameType))
+        {
+            HighScores[gameType] = new Dictionary<int, float>();
         }
 
         return scores;

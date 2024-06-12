@@ -64,9 +64,9 @@ using UnityEngine.UI;
         {
             SetHighScore<T>();
             int level = GetComponent<T>().currentLevelIndex;
+            int starsCount = GameUtils.CountStars(GetComponent<T>().maxScoreForGame, GetComponent<T>().HighScore);
             GameType gameType = GetComponent<T>().gameType;
-            /*Debug.Log("high score is: " + HighScore);
-            UserAccountController.UserController.UpdateScore(gameType, level, GetComponent<T>().HighScore);*/
+            UserAccountController.UserController.UpdateStats(gameType, level, GetComponent<T>().HighScore, starsCount);
         }
 
         protected float GetHighScore<T>() where T : BaseController
@@ -92,7 +92,6 @@ using UnityEngine.UI;
         {
             this.totalTime = totalTime;
         }
-        
-        
+
     }
 

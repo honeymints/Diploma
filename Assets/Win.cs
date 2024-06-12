@@ -13,7 +13,7 @@ public class Win : MonoBehaviour
 
     private int starsCount = 0;
 
-    void OnEnable()
+    public void OnEnable()
     {
         
     }
@@ -26,18 +26,7 @@ public class Win : MonoBehaviour
 
     public void CountStars(float maxPointsForGame, float currentPointsForGame)
     {
-        if (currentPointsForGame<=maxPointsForGame/3)
-        {
-            starsCount = 1;
-        }
-        else if (currentPointsForGame>maxPointsForGame/3 && currentPointsForGame<=(2*maxPointsForGame)/3)
-        {
-            starsCount = 2;
-        }
-        else
-        {
-            starsCount = 3;
-        }
+        starsCount=GameUtils.CountStars(maxPointsForGame, currentPointsForGame);
     }
 
     public void EnableStars()

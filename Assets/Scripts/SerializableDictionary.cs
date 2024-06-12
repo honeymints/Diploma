@@ -25,13 +25,13 @@ public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, IS
 
     public void OnAfterDeserialize()
     {
-        this.Clear();
+        Clear();
 
         if (keys.Count != values.Count)
-            throw new System.Exception("There are different number of keys and values after deserialization.");
+            throw new Exception("There are different number of keys and values after deserialization.");
 
         for (int i = 0; i < keys.Count; i++)
-            this.Add(keys[i], values[i]);
+            Add(keys[i], values[i]);
     }
 
     public Dictionary<TKey, TValue> ToDictionary()

@@ -20,6 +20,26 @@ public class GameUtils
         onTimeEnd?.Invoke();
     }
     
+    public static int CountStars(float maxPointsForGame, float currentPointsForGame)
+    {
+        int starsCount = 0;
+        
+        if (currentPointsForGame<=maxPointsForGame/3)
+        {
+            starsCount = 1;
+        }
+        else if (currentPointsForGame>maxPointsForGame/3 && currentPointsForGame<=(2*maxPointsForGame)/3)
+        {
+            starsCount = 2;
+        }
+        else
+        {
+            starsCount = 3;
+        }
+
+        return starsCount;
+    }
+    
     public static void CountPoints(float totalTime, float timeLeft, ref float currentPoints)
     {
 

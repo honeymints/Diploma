@@ -481,6 +481,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreTxt: {fileID: 8855206211665929872}
+  fillStars:
+  - {fileID: 7326070972718353354}
+  - {fileID: 4998372853106847567}
+  - {fileID: 7011772055925184199}
+  emptyStars:
+  - {fileID: 4125557377950875581}
+  - {fileID: 4413787899673759798}
+  - {fileID: 7953622267275190806}
 --- !u!1 &3500872693728101041
 GameObject:
   m_ObjectHideFlags: 0
