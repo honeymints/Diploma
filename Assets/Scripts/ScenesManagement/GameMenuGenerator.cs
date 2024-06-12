@@ -30,7 +30,7 @@ public class GameMenuGenerator : MonoBehaviour
             Debug.LogWarning("High scores count does not match scene names count. Padding highScores with default values.");
             while (highScores.Count < sceneList.sceneNames.Length)
             {
-                highScores.Add(0); // Add default score of 0 if not enough scores available
+                highScores.Add(0);
             }
         }
         

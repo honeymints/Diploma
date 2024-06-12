@@ -43,11 +43,11 @@ public class PuzzleGame1Controller : BaseController
     private void Start()
     {
         Time.timeScale = 1f;
-        HighScore = 0;
         currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
         gameType = GameType.BlocksGame;
-        currentPoints = 0;
-        maxScoreForGame = 100f;
+        currentPoints = 110f;
+        maxScoreForGame = 150f;
+        HighScore = GetHighScore<PuzzleGame1Controller>();;
     }
 
     private void SpawnGrid()
@@ -247,6 +247,7 @@ public class PuzzleGame1Controller : BaseController
     private IEnumerator GameWin()
     {
         yield return new WaitForSeconds(1f);
+        GameUtils.CountPoints(totalTime, currentTime, ref currentPoints);
         OnGameCompleted<PuzzleGame1Controller>();
         Win<PuzzleGame1Controller>(currentPoints, HighScore, maxScoreForGame);
         

@@ -56,4 +56,4 @@ MonoBehaviour:
   - {x: 2, y: 3}
   - {x: 3, y: 4}
   - {x: 4, y: 0}
-  timeDurationForLevel: 60
+  timeDurationForLevel: 40

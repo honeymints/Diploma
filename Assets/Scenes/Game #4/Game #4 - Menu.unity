@@ -545,7 +545,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -620,7 +620,7 @@ MonoBehaviour:
   gridLayout: {fileID: 375050940}
   sceneList: {fileID: 11400000, guid: 0d92065fc5555734bb2834e36b212dbd, type: 2}
   highScores: []
-  GameType: 3
+  GameType: 2
 --- !u!4 &576538324
 Transform:
   m_ObjectHideFlags: 0
@@ -1197,7 +1197,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1018, y: 1032}
+  m_SizeDelta: {x: 1018, y: 1444}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2081497384
 MonoBehaviour:

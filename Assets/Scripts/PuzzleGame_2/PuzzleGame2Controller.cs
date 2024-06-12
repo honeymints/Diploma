@@ -37,11 +37,11 @@ public class PuzzleGame2Controller : BaseController
     void Start()
     {
         Time.timeScale = 1f;
-        HighScore = 0;
         currentLevelIndex = SceneManager.GetActiveScene().buildIndex;
         gameType = GameType.OneLineGame;
-        currentPoints = 0;
-        maxScoreForGame = 100f;
+        currentPoints = 110f;
+        maxScoreForGame = 150f;
+        HighScore = GetHighScore<PuzzleGame2Controller>();;
     }
 
     private void SpawnLevel()
@@ -169,9 +169,9 @@ public class PuzzleGame2Controller : BaseController
     private IEnumerator GameFinished()
     {
         yield return new WaitForSeconds(1f);
-        
+        GameUtils.CountPoints(totalTime, currentTime, ref currentPoints);
         OnGameCompleted<PuzzleGame2Controller>();
-        Win<PuzzleGame2Controller>(100f, 0f,0f);
+        Win<PuzzleGame2Controller>(currentPoints, HighScore, maxScoreForGame);
         
     }
 }
