@@ -10,12 +10,7 @@ public class LevelButtonDisplay : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreTxt;
     [SerializeField] private Image[] fillStars;
     [SerializeField] private Image[] emptyStars;
-
-    public void Init(float score)
-    {
-        scoreTxt.text = score.ToString();
-    }
-
+    
     public void DisplayStars(int starsCount)
     {
         int count = 0;

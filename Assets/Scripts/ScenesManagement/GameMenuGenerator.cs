@@ -67,34 +67,11 @@ public class GameMenuGenerator : MonoBehaviour
                 UserAccountController.UserController.GetUserStarsCount(GameType, sceneList.buildIndexes[count]);
             GameObject button = Instantiate(buttonPrefab, gridLayout.transform);
             button.GetComponentInChildren<TMP_Text>().text = (count + 1).ToString();
-            button.GetComponent<LevelButtonDisplay>().Init(highScores[count]);
             button.GetComponent<LevelButtonDisplay>().DisplayStars(starsCount);
             button.GetComponent<Button>().onClick.AddListener(() => LoadScene(sceneName));
             count++;
         }
-        /*for (int i=0; i<sceneList.sceneNames.Count();i++)
-        {
-            GameObject buttonPrefab = Resources.Load<GameObject>(levelButtonPrefabPath);
-            if (buttonPrefab == null)
-            {
-                Debug.LogError("Button prefab could not be loaded from Resources.");
-                continue;
-            }
 
-            int starsCount = UserAccountController.UserController.GetUserStarsCount(GameType, sceneList.buildIndexes[i]);
-            GameObject button = Instantiate(buttonPrefab, gridLayout.transform);
-            button.GetComponentInChildren<TMP_Text>().text = (i + 1).ToString();
-            button.GetComponent<LevelButtonDisplay>().Init(highScores[i]);
-            button.GetComponent<LevelButtonDisplay>().DisplayStars(starsCount);
-            count++;
-        }
-
-        foreach (var sceneName in sceneList.sceneNames)
-        {
-            button.GetComponent<Button>().onClick.AddListener(() => LoadScene(sceneName));
-        }
-        */
-        
     }
 
     private void LoadScene(string sceneName)
